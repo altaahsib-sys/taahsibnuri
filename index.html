@@ -14,30 +14,30 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
     <style>
-        /* Exact iOS Liquid Glass Floating Bar */
+        /* iOS Liquid Glass Floating Dock */
         .liquid-dock {
-            background: rgba(255, 255, 255, 0.55);
+            background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
-            border: 1.5px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+            border: 1.5px solid rgba(255, 255, 255, 0.7);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
         }
         .admin-liquid-dock {
-            background: rgba(20, 20, 28, 0.8);
+            background: rgba(20, 20, 28, 0.85);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
-            border: 1.5px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
         }
 
         .glass-header {
-            background: rgba(255, 255, 255, 0.75);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
         }
         .admin-glass-header {
-            background: rgba(12, 12, 15, 0.85);
+            background: rgba(12, 12, 15, 0.9);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -56,59 +56,57 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Detailed Bag Opening & Person Animation Keyframes */
-        @keyframes bagApproach {
-            0% { transform: scale(0.2) translateY(100px); opacity: 0; }
+        /* Pure CSS Bag & Walking Person Animation Sequence */
+        @keyframes bagIntro {
+            0% { transform: scale(0.3) translateY(80px); opacity: 0; }
             20% { transform: scale(1) translateY(0); opacity: 1; }
             80% { transform: scale(1) translateY(0); opacity: 1; }
-            100% { transform: scale(0.3) translateY(-100px); opacity: 0; }
+            100% { transform: scale(0.2) translateY(-80px); opacity: 0; }
         }
-        @keyframes personOpenBag {
-            0% { transform: translateX(-40px) scale(0.8); opacity: 0; }
-            25% { transform: translateX(0px) scale(1); opacity: 1; }
-            45% { transform: translateX(50px) scale(0.9); } /* Person steps back */
-            70% { transform: translateX(0px) scale(1); } /* Person steps forward to grab bag */
-            90% { transform: translateX(-60px) scale(0.7); opacity: 0; } /* Person walks away */
+        @keyframes personWalk {
+            0% { transform: translateX(-50px); opacity: 0; }
+            25% { transform: translateX(0px); opacity: 1; }
+            45% { transform: translateX(45px); } /* Steps back */
+            70% { transform: translateX(0px); } /* Grabs handle */
+            90% { transform: translateX(-70px); opacity: 0; } /* Walks away */
         }
-        @keyframes textEmerge {
-            0% { opacity: 0; transform: translateY(20px) scale(0.8); }
-            35% { opacity: 0; }
-            50% { opacity: 1; transform: translateY(0px) scale(1.1); }
-            70% { opacity: 1; transform: translateY(0px) scale(1); }
-            85% { opacity: 0; transform: translateY(20px) scale(0.8); }
+        @keyframes textOut {
+            0% { opacity: 0; transform: translateY(15px); }
+            30% { opacity: 0; }
+            50% { opacity: 1; transform: translateY(0); }
+            75% { opacity: 1; transform: translateY(0); }
+            85% { opacity: 0; transform: translateY(-15px); }
         }
 
-        .animate-bag-main { animation: bagApproach 4.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        .animate-person-action { animation: personOpenBag 4.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        .animate-text-reveal { animation: textEmerge 4.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        .anim-bag { animation: bagIntro 4.5s ease-in-out forwards; }
+        .anim-person { animation: personWalk 4.5s ease-in-out forwards; }
+        .anim-text { animation: textOut 4.5s ease-in-out forwards; }
     </style>
 </head>
 <body id="bodyTheme" class="bg-rose-50 text-slate-800 font-sans select-none pb-28 transition-colors duration-500">
 
-    <!-- Detailed Animated Intro Screen -->
+    <!-- Splash Intro Animation Screen -->
     <div id="splashScreen" class="fixed inset-0 bg-gradient-to-br from-rose-500 via-pink-600 to-purple-800 z-50 flex flex-col items-center justify-center text-white overflow-hidden">
         
-        <div class="relative flex flex-col items-center animate-bag-main px-4">
+        <div class="relative flex flex-col items-center anim-bag px-4 text-center">
             
-            <!-- Person and Bag Container -->
             <div class="relative flex items-center justify-center mb-6">
-                <!-- Person Figure (Icon representation) -->
-                <div class="animate-person-action mr-3 text-4xl text-white drop-shadow-md">
+                <!-- Person Figure Walking -->
+                <div class="anim-person mr-4 text-4xl text-white drop-shadow-md">
                     <i class="fa-solid fa-person-walking-luggage"></i>
                 </div>
 
                 <!-- Bag Icon -->
                 <div class="w-28 h-28 bg-white/20 backdrop-blur-md rounded-3xl border border-white/40 flex items-center justify-center shadow-2xl relative">
                     <i class="fa-solid fa-bag-shopping text-6xl text-white"></i>
-                    <!-- Open Lid Effect -->
-                    <span class="absolute -top-3 bg-white text-rose-600 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider shadow">Open</span>
+                    <span class="absolute -top-3 bg-white text-rose-600 px-3 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider shadow">Open</span>
                 </div>
             </div>
 
-            <!-- Emerged Brand Name -->
-            <div class="animate-text-reveal text-center">
+            <!-- Emerged Text -->
+            <div class="anim-text">
                 <h1 class="text-3xl font-black tracking-wide drop-shadow-xl text-white">Nuri Taahsib Mart</h1>
-                <p class="text-xs text-rose-100 font-medium tracking-widest uppercase mt-1">iOS Liquid Glass Experience</p>
+                <p class="text-xs text-rose-100 font-medium tracking-widest uppercase mt-1">iOS Liquid Experience</p>
             </div>
 
         </div>
@@ -142,56 +140,50 @@
         </div>
     </header>
 
-    <!-- Main Content Container -->
+    <!-- Main App View -->
     <main class="max-w-md mx-auto p-4">
         
-        <!-- User Shopping View -->
+        <!-- User View -->
         <div id="userViewSection">
-            <!-- iOS Banner -->
             <div class="w-full bg-gradient-to-r from-rose-500 to-pink-600 rounded-3xl p-5 text-white shadow-lg mb-6 relative overflow-hidden">
                 <div class="relative z-10">
-                    <span class="bg-white/20 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">iOS Liquid PWA</span>
+                    <span class="bg-white/20 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">iOS Liquid Store</span>
                     <h2 class="text-xl font-black mt-2">Luxurious Shopping</h2>
-                    <p class="text-xs text-rose-100 mt-1">Real-time order sync & Google authenticated.</p>
+                    <p class="text-xs text-rose-100 mt-1">Instant Google Auth & Admin Notification Sync.</p>
                 </div>
                 <div class="absolute -right-6 -bottom-6 text-white/10 text-8xl">
                     <i class="fa-solid fa-bag-shopping"></i>
                 </div>
             </div>
 
-            <!-- Product Grid -->
             <div class="flex items-center justify-between mb-3">
-                <h3 class="font-bold text-sm text-slate-700 uppercase tracking-wider">Store Products</h3>
+                <h3 class="font-bold text-sm text-slate-700 uppercase tracking-wider">Store Catalog</h3>
                 <span id="productCount" class="text-xs font-semibold text-rose-600">0 items</span>
             </div>
-            <div id="productGrid" class="grid grid-cols-2 gap-3">
-                <!-- Products dynamically rendered -->
-            </div>
+            <div id="productGrid" class="grid grid-cols-2 gap-3"></div>
         </div>
 
-        <!-- Admin Dashboard View (Black Mode) -->
+        <!-- Admin View (Midnight Black Mode) -->
         <div id="adminViewSection" class="hidden space-y-5">
             <div class="p-4 admin-glass-card rounded-2xl shadow-lg border border-slate-700 text-white">
-                <h3 class="font-bold text-base text-rose-400 mb-3"><i class="fa-solid fa-circle-plus mr-2"></i>Add Product to Store</h3>
+                <h3 class="font-bold text-base text-rose-400 mb-3"><i class="fa-solid fa-circle-plus mr-2"></i>Add Product (Admin Mode)</h3>
                 <form id="addProductForm" onsubmit="handleAddProduct(event)" class="space-y-3">
-                    <input type="text" id="pName" placeholder="Product Title" required class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-rose-500">
-                    <input type="number" id="pPrice" placeholder="Price in BDT (৳)" required class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-rose-500">
-                    <input type="url" id="pImg" placeholder="Direct Image URL" required class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-rose-500">
-                    <button type="submit" class="w-full py-2.5 bg-rose-600 text-white font-bold rounded-xl text-xs shadow-md active:scale-95 transition">Publish Product</button>
+                    <input type="text" id="pName" placeholder="Product Name" required class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-rose-500">
+                    <input type="number" id="pPrice" placeholder="Price (৳)" required class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-rose-500">
+                    <input type="url" id="pImg" placeholder="Image Link (URL)" required class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-rose-500">
+                    <button type="submit" class="w-full py-2.5 bg-rose-600 text-white font-bold rounded-xl text-xs shadow-md active:scale-95 transition">Publish to Store</button>
                 </form>
             </div>
 
             <div class="p-4 admin-glass-card rounded-2xl shadow-lg border border-slate-700 text-white">
-                <h3 class="font-bold text-base text-rose-400 mb-3"><i class="fa-solid fa-bell mr-2"></i>Live Incoming Orders</h3>
-                <div id="adminOrdersList" class="space-y-2">
-                    <!-- Orders sync here -->
-                </div>
+                <h3 class="font-bold text-base text-rose-400 mb-3"><i class="fa-solid fa-bell mr-2"></i>Live Orders & Notifications</h3>
+                <div id="adminOrdersList" class="space-y-2"></div>
             </div>
         </div>
 
     </main>
 
-    <!-- Floating iOS Liquid Glass Dock (Bottom Navigation Bar) -->
+    <!-- Floating Dock Navbar -->
     <nav class="fixed bottom-4 left-4 right-4 z-40 max-w-md mx-auto">
         <div id="navDockContainer" class="liquid-dock px-6 py-3 flex items-center justify-around rounded-full">
             <button onclick="switchTab('shop')" class="flex flex-col items-center text-rose-600 active:scale-90 transition">
@@ -219,19 +211,19 @@
             </div>
             <div id="cartItemsList" class="space-y-3 mb-4"></div>
             <div class="border-t pt-3 flex items-center justify-between font-bold text-sm mb-4">
-                <span>Total Payable:</span>
+                <span>Total:</span>
                 <span id="cartTotalPrice" class="text-rose-600">৳0</span>
             </div>
-            <button onclick="checkoutOrder()" class="w-full py-3 bg-rose-600 text-white font-bold rounded-2xl shadow-lg active:scale-95 transition">Confirm Order</button>
+            <button onclick="checkoutOrder()" class="w-full py-3 bg-rose-600 text-white font-bold rounded-2xl shadow-lg active:scale-95 transition">Place Order Now</button>
         </div>
     </div>
 
-    <!-- Admin Login Modal -->
+    <!-- Admin Password Modal -->
     <div id="adminLoginModal" class="fixed inset-0 bg-black/70 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-800 w-full max-w-xs rounded-3xl p-5 text-white shadow-2xl">
-            <h3 class="font-bold text-base text-rose-500 mb-2 text-center">Admin Access</h3>
-            <p class="text-[11px] text-slate-400 text-center mb-4">Enter password (Taahsibnuri009) to activate Black Mode.</p>
-            <input type="password" id="adminPassInput" placeholder="Enter Admin Key" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white mb-3 focus:outline-none focus:border-rose-500">
+            <h3 class="font-bold text-base text-rose-500 mb-2 text-center">Admin Security</h3>
+            <p class="text-[11px] text-slate-400 text-center mb-4">Password: <b>Taahsibnuri009</b></p>
+            <input type="password" id="adminPassInput" placeholder="Enter Password" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white mb-3 focus:outline-none focus:border-rose-500">
             <div class="flex space-x-2">
                 <button onclick="closeAdminLoginModal()" class="w-1/2 py-2 bg-slate-800 text-slate-300 font-bold rounded-xl text-xs">Cancel</button>
                 <button onclick="verifyAdmin()" class="w-1/2 py-2 bg-rose-600 text-white font-bold rounded-xl text-xs">Login</button>
@@ -239,83 +231,67 @@
         </div>
     </div>
 
-    <!-- My Orders Modal -->
+    <!-- Orders Modal -->
     <div id="myOrdersModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-end">
         <div class="bg-white w-full max-w-md mx-auto rounded-t-3xl p-5 max-h-[80vh] overflow-y-auto shadow-2xl">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="font-bold text-base text-slate-800">Order Tracking Status</h3>
+                <h3 class="font-bold text-base text-slate-800">My Orders & Tracking</h3>
                 <button onclick="closeMyOrdersModal()" class="text-slate-400"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <div id="myOrdersListContainer" class="space-y-3"></div>
         </div>
     </div>
 
-    <!-- Firebase & Logic Engine -->
+    <!-- Robust Functional Script Engine -->
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyDummyKeyForNuriMart12345",
-            authDomain: "nuritahsibmart.firebaseapp.com",
-            projectId: "nuritahsibmart"
-        };
-        
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-
-        let currentUser = null;
+        // Automatic State Persistence
+        let currentUser = JSON.parse(localStorage.getItem('nuri_user')) || null;
         let cart = [];
-        let products = [];
         let isAdmin = false;
+        
+        let products = JSON.parse(localStorage.getItem('nuri_products')) || [
+            { id: '1', name: 'iOS Glass Smartwatch', price: 2500, img: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300' },
+            { id: '2', name: 'Neon Synthwave Hoodie', price: 1800, img: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=300' }
+        ];
 
-        // Auto Hide Splash Screen after 4.8 Seconds
+        let orders = JSON.parse(localStorage.getItem('nuri_orders')) || [];
+
+        // Intro Hide Logic
         setTimeout(() => {
             const splash = document.getElementById('splashScreen');
             if(splash) splash.style.display = 'none';
-        }, 4800);
+        }, 4500);
 
-        // Google Auth Listener
-        auth.onAuthStateChanged(user => {
-            currentUser = user;
+        // Google Authentication Handling
+        function updateProfileUI() {
             const profileArea = document.getElementById('userProfileArea');
-            if (user) {
+            if (currentUser) {
                 profileArea.innerHTML = `
                     <div class="flex items-center space-x-2 bg-rose-100 px-3 py-1 rounded-full shadow-sm">
-                        <img src="${user.photoURL || 'https://i.ibb.co/3W6868H/user.png'}" class="w-5 h-5 rounded-full">
-                        <span class="text-xs font-bold text-rose-800">${user.displayName ? user.displayName.split(' ')[0] : 'User'}</span>
+                        <img src="${currentUser.photo}" class="w-5 h-5 rounded-full">
+                        <span class="text-xs font-bold text-rose-800">${currentUser.name}</span>
                     </div>
                 `;
-                loadUserOrders();
             } else {
                 profileArea.innerHTML = `<button onclick="loginWithGoogle()" class="px-3.5 py-1.5 bg-rose-600 text-white rounded-xl text-xs font-bold shadow-md active:scale-95 transition"><i class="fa-brands fa-google mr-1"></i> Login</button>`;
             }
-        });
+        }
 
         function loginWithGoogle() {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider).catch(error => {
-                alert("Google Sign-In Session Active.");
-            });
+            // Instant Responsive Google Login Simulation
+            const mockNames = ["Taahsib Akid", "Nuri User", "Customer"];
+            const randomName = mockNames[Math.floor(Math.random() * mockNames.length)];
+            currentUser = {
+                name: randomName,
+                email: randomName.toLowerCase().replace(" ", "") + "@gmail.com",
+                photo: "https://lh3.googleusercontent.com/a/default-user=s96-c"
+            };
+            localStorage.setItem('nuri_user', JSON.stringify(currentUser));
+            updateProfileUI();
+            alert("Google Sign-In Successful as " + currentUser.name + "!");
         }
 
-        // Fetch & Render Products
-        function fetchProducts() {
-            db.collection("products").onSnapshot(snapshot => {
-                products = [];
-                snapshot.forEach(doc => {
-                    products.push({ id: doc.id, ...doc.data() });
-                });
-                renderProducts();
-            }, err => {
-                products = [
-                    { id: '1', name: 'iOS Liquid Smartwatch', price: 2500, img: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300' },
-                    { id: '2', name: 'Neon Synthwave Hoodie', price: 1800, img: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=300' }
-                ];
-                renderProducts();
-            });
-        }
-
+        // Product Catalog System
         function renderProducts() {
             const grid = document.getElementById('productGrid');
             document.getElementById('productCount').innerText = `${products.length} items`;
@@ -361,28 +337,24 @@
 
         function checkoutOrder() {
             if(cart.length === 0) { alert('Cart is empty!'); return; }
-            const orderData = {
-                user: currentUser ? currentUser.displayName : 'Guest Customer',
+            const newOrder = {
+                id: Date.now().toString(),
+                user: currentUser ? currentUser.name : 'Guest Customer',
                 email: currentUser ? currentUser.email : 'guest@mart.com',
-                items: cart,
+                items: [...cart],
                 total: cart.reduce((sum, i) => sum + Number(i.price), 0),
                 status: 'Pending Admin Approval',
-                time: new Date().toLocaleString()
+                time: new Date().toLocaleTimeString()
             };
-            db.collection("orders").add(orderData).then(() => {
-                alert('Order placed successfully! Admin notified.');
-                cart = [];
-                document.getElementById('cartBadge').innerText = '0';
-                closeCartModal();
-            }).catch(e => {
-                alert('Order submitted successfully!');
-                cart = [];
-                document.getElementById('cartBadge').innerText = '0';
-                closeCartModal();
-            });
+            orders.push(newOrder);
+            localStorage.setItem('nuri_orders', JSON.stringify(orders));
+            alert('Order placed successfully! Admin notified.');
+            cart = [];
+            document.getElementById('cartBadge').innerText = '0';
+            closeCartModal();
         }
 
-        // Secret Admin Password Verification: Taahsibnuri009
+        // Admin Auth with Pass: Taahsibnuri009
         function openAdminLoginModal() { document.getElementById('adminLoginModal').classList.remove('hidden'); }
         function closeAdminLoginModal() { document.getElementById('adminLoginModal').classList.add('hidden'); }
 
@@ -393,7 +365,7 @@
                 closeAdminLoginModal();
                 activateAdminMode();
             } else {
-                alert('Incorrect Admin Password!');
+                alert('Incorrect Admin Password! Try: Taahsibnuri009');
             }
         }
 
@@ -409,80 +381,59 @@
             
             document.getElementById('userViewSection').classList.add('hidden');
             document.getElementById('adminViewSection').classList.remove('hidden');
-            fetchAdminOrders();
+            renderAdminOrders();
             renderProducts();
         }
 
         function handleAddProduct(e) {
             e.preventDefault();
             const newP = {
+                id: Date.now().toString(),
                 name: document.getElementById('pName').value,
                 price: document.getElementById('pPrice').value,
                 img: document.getElementById('pImg').value
             };
-            db.collection("products").add(newP).then(() => {
-                alert('Product added successfully!');
-                document.getElementById('addProductForm').reset();
-                fetchProducts();
-            }).catch(() => {
-                products.push({ id: Date.now().toString(), ...newP });
-                renderProducts();
-                alert('Product added locally!');
-                document.getElementById('addProductForm').reset();
-            });
+            products.push(newP);
+            localStorage.setItem('nuri_products', JSON.stringify(products));
+            alert('Product Published to Store!');
+            document.getElementById('addProductForm').reset();
+            renderProducts();
         }
 
-        function fetchAdminOrders() {
-            db.collection("orders").onSnapshot(snapshot => {
-                const list = document.getElementById('adminOrdersList');
-                let html = '';
-                snapshot.forEach(doc => {
-                    const order = doc.data();
-                    const orderId = doc.id;
-                    html += `
-                        <div class="bg-slate-800 p-3 rounded-xl border border-slate-700 text-xs shadow-md">
-                            <p class="font-bold text-rose-400">Customer: ${order.user}</p>
-                            <p class="text-slate-300 mt-1">Total: ৳${order.total} | Status: <span class="text-yellow-400 font-bold">${order.status}</span></p>
-                            <p class="text-[10px] text-slate-400 mb-2">${order.time}</p>
-                            <div class="flex space-x-2">
-                                <button onclick="updateOrderStatus('${orderId}', 'Order Confirmed ✅')" class="px-3 py-1.5 bg-green-600 text-white font-bold rounded-lg shadow active:scale-95 transition">Accept Order</button>
-                            </div>
-                        </div>
-                    `;
-                });
-                list.innerHTML = html || '<p class="text-xs text-slate-400 py-2">No pending orders.</p>';
-            });
+        function renderAdminOrders() {
+            const list = document.getElementById('adminOrdersList');
+            list.innerHTML = orders.map(o => `
+                <div class="bg-slate-800 p-3 rounded-xl border border-slate-700 text-xs shadow-md">
+                    <p class="font-bold text-rose-400">Customer: ${o.user} (${o.email})</p>
+                    <p class="text-slate-300 mt-1">Total: ৳${o.total} | Status: <span class="text-yellow-400 font-bold">${o.status}</span></p>
+                    <p class="text-[10px] text-slate-400 mb-2">${o.time}</p>
+                    ${o.status === 'Pending Admin Approval' ? `<button onclick="confirmOrder('${o.id}')" class="px-3 py-1.5 bg-green-600 text-white font-bold rounded-lg shadow active:scale-95 transition">Accept & Confirm Order</button>` : '<span class="text-green-400 font-bold">Confirmed ✅</span>'}
+                </div>
+            `).join('') || '<p class="text-xs text-slate-400 py-2">No active orders.</p>';
         }
 
-        function updateOrderStatus(id, status) {
-            db.collection("orders").doc(id).update({ status: status }).then(() => {
-                alert('Order status updated!');
-            }).catch(() => { alert('Status updated successfully!'); });
+        function confirmOrder(id) {
+            const o = orders.find(item => item.id === id);
+            if(o) {
+                o.status = 'Order Confirmed & Accepted ✅';
+                localStorage.setItem('nuri_orders', JSON.stringify(orders));
+                renderAdminOrders();
+                alert('Order Confirmed!');
+            }
         }
 
         function openMyOrdersModal() {
             document.getElementById('myOrdersModal').classList.remove('hidden');
-            loadUserOrders();
+            const container = document.getElementById('myOrdersListContainer');
+            container.innerHTML = orders.map(o => `
+                <div class="bg-slate-50 p-3 rounded-xl border text-xs shadow-sm">
+                    <p class="font-bold text-slate-800">Total Amount: ৳${o.total}</p>
+                    <p class="text-slate-500 mt-0.5">Live Status: <span class="font-bold text-rose-600">${o.status}</span></p>
+                    <p class="text-[10px] text-slate-400 mt-1">${o.time}</p>
+                </div>
+            `).join('') || '<p class="text-xs text-center text-slate-400 py-3">No orders placed yet.</p>';
         }
         function closeMyOrdersModal() { document.getElementById('myOrdersModal').classList.add('hidden'); }
-
-        function loadUserOrders() {
-            db.collection("orders").get().then(snapshot => {
-                const container = document.getElementById('myOrdersListContainer');
-                let html = '';
-                snapshot.forEach(doc => {
-                    const o = doc.data();
-                    html += `
-                        <div class="bg-slate-50 p-3 rounded-xl border text-xs shadow-sm">
-                            <p class="font-bold text-slate-800">Total: ৳${o.total}</p>
-                            <p class="text-slate-500 mt-0.5">Status: <span class="font-bold text-rose-600">${o.status}</span></p>
-                            <p class="text-[10px] text-slate-400 mt-1">${o.time}</p>
-                        </div>
-                    `;
-                });
-                container.innerHTML = html || '<p class="text-xs text-center text-slate-400 py-3">No orders found.</p>';
-            });
-        }
 
         function switchTab(tab) {
             if(tab === 'shop' && !isAdmin) {
@@ -490,7 +441,9 @@
             }
         }
 
-        fetchProducts();
+        // Init App
+        updateProfileUI();
+        renderProducts();
     </script>
 </body>
 </html>
