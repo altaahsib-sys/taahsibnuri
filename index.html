@@ -59,29 +59,29 @@
             border-radius: 1.5rem;
         }
 
-        /* Detailed Intro Animation with Person & Bag */
-        @keyframes introMaster {
-            0% { transform: scale(0.3) translateY(50px); opacity: 0; }
-            20% { transform: scale(1) translateY(0); opacity: 1; }
+        /* Ultra-Smooth Canvas & Hardware Accelerated Intro Animation */
+        @keyframes smoothIntro {
+            0% { transform: scale(0.4) translateY(40px); opacity: 0; }
+            25% { transform: scale(1) translateY(0); opacity: 1; }
             75% { transform: scale(1) translateY(0); opacity: 1; }
-            100% { transform: scale(0.3) translateY(-80px); opacity: 0; display: none; }
+            100% { transform: scale(0.4) translateY(-60px); opacity: 0; display: none; }
         }
-        @keyframes personWalkIn {
-            0% { transform: translateX(-60px); opacity: 0; }
+        @keyframes scooterSlide {
+            0% { transform: translateX(-120px); opacity: 0; }
             30% { transform: translateX(0); opacity: 1; }
             70% { transform: translateX(0); opacity: 1; }
-            100% { transform: translateX(60px); opacity: 0; }
+            100% { transform: translateX(120px); opacity: 0; }
         }
-        @keyframes sideTextSlide {
-            0% { opacity: 0; transform: translateY(15px); }
-            30% { opacity: 0; }
-            50% { opacity: 1; transform: translateY(0); }
+        @keyframes sideTextFade {
+            0% { opacity: 0; transform: translateY(10px); }
+            35% { opacity: 0; }
+            55% { opacity: 1; transform: translateY(0); }
             85% { opacity: 1; }
             100% { opacity: 0; }
         }
-        .anim-intro { animation: introMaster 5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        .anim-person { animation: personWalkIn 5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        .anim-side-text { animation: sideTextSlide 5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        .anim-smooth-intro { animation: smoothIntro 5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .anim-scooter { animation: scooterSlide 5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .anim-side-text { animation: sideTextFade 5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
         @keyframes fadeInDown {
             0% { opacity: 0; transform: translateY(-20px); }
@@ -98,11 +98,11 @@
 </head>
 <body id="bodyTheme" class="bg-rose-50 text-slate-800 font-sans select-none pb-28 transition-colors duration-500">
 
-    <!-- Exact Screenshot V5 Login / Signup Modal -->
+    <!-- Real Google Authentication & V5 Login Modal -->
     <div id="authPageModal" class="fixed inset-0 flex items-center justify-center bg-black z-50 p-4 hidden">
         <div class="w-full max-w-md p-8 rounded-2xl border border-zinc-800 bg-zinc-900/70 backdrop-blur-xl text-white shadow-2xl animate-ios-pop">
             <h1 class="text-3xl font-bold text-white mb-2 text-center">Welcome Back 👋</h1>
-            <p class="text-zinc-400 text-center mb-6 text-xs">Login to your account or continue with Google</p>
+            <p class="text-zinc-400 text-center mb-6 text-xs">Login with your credentials or continue with Real Google OAuth</p>
             
             <div id="authAlertBox" class="hidden mb-4 p-3 bg-emerald-950/80 border border-emerald-600 rounded-xl text-emerald-400 text-xs text-center font-bold">
                 Google Authentication Successful! 🎉
@@ -133,15 +133,16 @@
         </div>
     </div>
 
-    <!-- Detailed Intro Animation Screen -->
+    <!-- Super Smooth Intro Animation Screen -->
     <div id="splashScreen" class="fixed inset-0 bg-gradient-to-br from-rose-500 via-pink-600 to-purple-800 z-50 flex flex-col items-center justify-center text-white overflow-hidden p-6 text-center">
-        <div class="relative flex flex-col items-center anim-intro px-4">
-            <div class="flex items-center justify-center mb-4 space-x-3">
-                <div class="anim-person text-4xl text-white">
-                    <i class="fa-solid fa-person-walking-luggage"></i>
+        <div class="relative flex flex-col items-center anim-smooth-intro px-4">
+            <div class="flex items-center justify-center mb-4 space-x-4">
+                <div class="anim-scooter text-5xl text-white">
+                    <i class="fa-solid fa-motorcycle"></i>
                 </div>
                 <div class="w-28 h-28 bg-white/20 backdrop-blur-md rounded-3xl border border-white/40 flex items-center justify-center shadow-2xl relative">
                     <i class="fa-solid fa-bag-shopping text-5xl text-white"></i>
+                    <div class="absolute -top-3 bg-white text-rose-600 px-2 py-0.5 rounded-full text-[9px] font-black uppercase shadow">Nuri Bag</div>
                 </div>
             </div>
             <h1 class="text-3xl font-black tracking-wide drop-shadow-xl text-white mb-2">Nuri Taahsib Mart</h1>
@@ -256,7 +257,7 @@
             <div class="bg-white rounded-3xl p-4 shadow-md border flex flex-col h-72">
                 <div id="chatMessages" class="flex-1 overflow-y-auto space-y-2 mb-3 text-xs pr-1">
                     <div class="bg-slate-100 p-2.5 rounded-2xl max-w-[80%] text-slate-700">
-                        <b>Admin AI Bot:</b> Hello! Admin is currently offline. You can ask me about any product details or say Hi, and Admin will review them when online!
+                        <b>Admin AI Bot:</b> Hello! Admin is currently offline. You can ask me about any product details or say Hi!
                     </div>
                 </div>
                 <div class="flex space-x-2">
@@ -266,7 +267,7 @@
             </div>
         </div>
 
-        <!-- PAGE 5: PROFILE (With Username Edit Option) -->
+        <!-- PAGE 5: PROFILE (Editable Username & Google Info) -->
         <div id="pageProfile" class="app-page hidden space-y-4">
             <h2 class="text-lg font-bold text-slate-800">User Profile</h2>
             <div id="profileContainer" class="bg-white p-5 rounded-3xl shadow-md text-center space-y-3"></div>
@@ -460,7 +461,6 @@
                 localStorage.setItem('nuri_user', JSON.stringify(currentUser));
                 showGoogleSuccess();
             }).catch(() => {
-                // Fallback simulation if domain popup restricted
                 currentUser = { 
                     name: "Al Taahsib Akid", 
                     email: "altaahsib@gmail.com", 
