@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuri Taahsib Mart</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes slideDown {
+            0% { transform: translateY(-100%); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
+        }
+        .animate-slide-down {
+            animation: slideDown 1s ease-out forwards;
+        }
+        .animate-fade-out {
+            animation: fadeOut 1s ease-in 4s forwards;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800 antialiased selection:bg-orange-500 selection:text-white pb-20">
+
+    <!-- Splash Screen -->
+    <div id="splashScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-orange-600 text-white animate-fade-out">
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-wider animate-slide-down text-center drop-shadow-md">
+            Nuri Taahsib Mart
+        </h1>
+    </div>
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-40 bg-orange-600 text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+            <!-- App Logo / Name -->
+            <div class="text-xl font-bold tracking-tight whitespace-nowrap">
+                Nuri Taahsib Mart
+            </div>
+
+            <!-- Search Bar -->
+            <div class="flex-1 max-w-xl relative">
+                <input type="text" id="searchInput" onkeyup="handleSearch()" placeholder="Search for products, brands..." class="w-full pl-4 pr-10 py-2 rounded-full text-gray-800 text-sm focus:outline-none">
+
+                       class="w-full pl-4 pr-10 py-2 rounded-full text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-orange-300 shadow-inner">
+                <i class="fas fa-search absolute right-3 top-2.5 text-gray-400"></i>
+            </div>
+
+            <!-- Header Action Icons -->
+            <div class="flex items-center space-x-4">
+                <button class="relative p-2 hover:bg-orange-700 rounded-full transition">
+                    <i class="fas fa-bell text-lg"></i>
+                    <span class="absolute top-1 right-1 bg-yellow-400 text-gray-900 text-xs font-bold w-4 h-4 rounded-full flex items-center justify-center">3</span>
+                </button>
+                <button onclick="switchTab('cart')" class="relative p-2 hover:bg-orange-700 rounded-full transition">
+                    <i class="fas fa-shopping-cart text-lg"></i>
+                    <span id="cartBadge" class="absolute top-1 right-1 bg-yellow-400 text-gray-900 text-xs font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 py-4">
+
+        <!-- HOME TAB -->
+        <div id="homeTab" class="tab-content">
+            <!-- Promotional Banner Slider -->
+            <div class="relative w-full h-44 md:h-64 rounded-xl overflow-hidden shadow-lg mb-6 bg-gradient-to-r from-orange-500 to-amber-500 text-white flex items-center justify-between p-6 md:p-10">
+                <div>
+                    <span class="bg-yellow-300 text-orange-900 text-xs font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider">Super Sale</span>
+                    <h2 class="text-2xl md:text-4xl font-extrabold mt-2">Up to 50% Off</h2>
+                    <p class="text-sm md:text-base mt-1 opacity-90">Exclusive deals on Top Brands!</p>
+                </div>
+                <div class="text-6xl opacity-30">
+                    <i class="fas fa-tags"></i>
+                </div>
+            </div>
+
+            <!-- Category Grid -->
+            <section class="mb-8">
+                <h3 class="text-lg font-bold mb-3 text-gray-800">Categories</h3>
+                <div class="grid grid-cols-5 gap-3 text-center">
+                    <button onclick="filterCategory('All')" class="flex flex-col items-center p-3 bg-white rounded-xl shadow-sm hover:shadow-md transition">
+                        <div class="w-12 h-12 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center text-xl mb-1"><i class="fas fa-th-large"></i></div>
+                        <span class="text-xs font-medium">All</span>
+                    </button>
+                    <button onclick="filterCategory('Fashion')" class="flex flex-col items-center p-3 bg-white rounded-xl shadow-sm hover:shadow-md transition">
+                        <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xl mb-1"><i class="fas fa-tshirt"></i></div>
+                        <span class="text-xs font-medium">Fashion</span>
+                    </button>
+                    <button onclick="filterCategory('Electronics')" class="flex flex-col items-center p-3 bg-white rounded-xl shadow-sm hover:shadow-md transition">
+                        <div class="w-12 h-12 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-xl mb-1"><i class="fas fa-laptop"></i></div>
+                        <span class="text-xs font-medium">Electronics</span>
+                    </button>
+                    <button onclick="filterCategory('Home & Living')" class="flex flex-col items-center p-3 bg-white rounded-xl shadow-sm hover:shadow-md transition">
+                        <div class="w-12 h-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xl mb-1"><i class="fas fa-couch"></i></div>
+                        <span class="text-xs font-medium">Home</span>
+                    </button>
+                    <button onclick="filterCategory('Beauty')" class="flex flex-col items-center p-3 bg-white rounded-xl shadow-sm hover:shadow-md transition">
+                        <div class="w-12 h-12 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center text-xl mb-1"><i class="fas fa-heart"></i></div>
+                        <span class="text-xs font-medium">Beauty</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Flash Sale Section -->
+            <section class="mb-8 bg-white p-4 rounded-xl shadow-sm">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center space-x-3">
+                        <h3 class="text-lg font-extrabold text-orange-600 uppercase tracking-wide">Flash Sale</h3>
+                        <div class="flex items-center space-x-1 text-xs font-bold text-white bg-gray-900 px-2.5 py-1 rounded">
+                            <span id="timerHours">05</span>:
+                            <span id="timerMinutes">12</span>:
+                            <span id="timerSeconds">45</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Product Feed Grid -->
+            <section>
+                <h3 class="text-lg font-bold mb-3 text-gray-800">Just For You</h3>
+                <div id="productGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <!-- Dynamic Product Cards Output -->
+                </div>
+            </section>
+        </div>
+
+        <!-- CART & CHECKOUT TAB -->
+        <div id="cartTab" class="tab-content hidden">
+            <h2 class="text-2xl font-bold mb-4">Shopping Cart</h2>
+            <div id="cartItemsContainer" class="space-y-4 mb-6">
+                <!-- Dynamic Cart Items -->
+            </div>
+
+            <!-- Cart Summary & Checkout Form -->
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+                <div class="flex justify-between font-bold text-lg border-b pb-3 mb-4">
+                    <span>Total Amount:</span>
+                    <span id="cartTotalPrice" class="text-orange-600">৳0</span>
+                </div>
+
+                <h3 class="font-bold mb-3">Shipping Address & Payment</h3>
+                <div class="space-y-3">
+                    <input type="text" id="checkoutAddress" placeholder="Full Delivery Address" class="w-full p-2.5 border rounded-lg text-sm">
+                    <input type="tel" id="checkoutPhone" placeholder="Mobile Number" class="w-full p-2.5 border rounded-lg text-sm">
+                    
+                    <div>
+                        <label class="block text-xs font-semibold mb-1 text-gray-600">Payment Option</label>
+                        <select id="paymentMethod" class="w-full p-2.5 border rounded-lg text-sm bg-white">
+                            <option value="bKash">bKash Mobile Banking</option>
+                            <option value="COD">Cash on Delivery (COD)</option>
+                            <option value="Card">Digital Credit / Debit Card</option>
+                        </select>
+                    </div>
+
+                    <button onclick="placeOrder()" class="w-full bg-orange-600 text-white font-bold py-3 rounded-xl shadow-md hover:bg-orange-700 transition mt-2">
+                        Place Order Now
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- USER PROFILE & ADMIN PANEL TAB -->
+        <div id="profileTab" class="tab-content hidden">
+            <div class="bg-white rounded-xl p-6 shadow-sm mb-6 flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="w-16 h-16 rounded-full bg-orange-500 text-white flex items-center justify-center text-2xl font-bold">
+                        U
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold">User Profile</h2>
+                        <p id="userRoleBadge" class="text-xs bg-gray-200 text-gray-700 px-2 py-0.5 rounded inline-block mt-1 font-semibold">User</p>
+                    </div>
+                </div>
+
+                <!-- Admin Toggle Switch -->
+                <div class="flex items-center bg-gray-100 p-2 rounded-lg">
+                    <span class="text-xs font-bold mr-2 text-gray-600">isAdmin:</span>
+                    <button id="adminToggleBtn" onclick="toggleAdminRole()" class="px-3 py-1 text-xs font-bold rounded bg-gray-300 text-gray-700">
+                        FALSE
+                    </button>
+                </div>
+            </div>
+
+            <!-- Order History -->
+            <div class="bg-white rounded-xl p-5 shadow-sm mb-6">
+                <h3 class="font-bold text-lg mb-3">Order History & Tracking</h3>
+                <div id="orderHistoryList" class="text-sm text-gray-500 italic">
+                    No orders placed yet.
+                </div>
+            </div>
+
+            <!-- Admin Product Upload Form (Conditional) -->
+            <div id="adminProductForm" class="bg-white rounded-xl p-5 shadow-sm border-2 border-orange-200 hidden">
+                <div class="flex items-center space-x-2 text-orange-600 font-extrabold text-lg mb-4">
+                    <i class="fas fa-plus-circle"></i>
+                    <h3>Admin Panel: Add New Product</h3>
+                </div>
+                <form onsubmit="handleProductUpload(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold mb-1">Product Name</label>
+                        <input type="text" id="prodName" required placeholder="e.g. Wireless Headphones" class="w-full p-2.5 border rounded-lg text-sm">
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold mb-1">Price (৳)</label>
+                            <input type="number" id="prodPrice" required placeholder="1200" class="w-full p-2.5 border rounded-lg text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold mb-1">Original Price (৳)</label>
+                            <input type="number" id="prodOldPrice" placeholder="1500" class="w-full p-2.5 border rounded-lg text-sm">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold mb-1">Category</label>
+                        <select id="prodCategory" class="w-full p-2.5 border rounded-lg text-sm bg-white">
+                            <option value="Electronics">Electronics</option>
+                            <option value="Fashion">Fashion</option>
+                            <option value="Home & Living">Home & Living</option>
+                            <option value="Beauty">Beauty</option>
+                        </select>
+                    </div>
+<div class="mb-3">
+    <label class="block text-xs font-semibold mb-1 text-gray-600">Stock Status</label>
+    <select id="prodStock" class="w-full p-2.5 border rounded-lg text-sm bg-white">
+        <option value="In Stock">Stock In</option>
+        <option value="Stock Out">Stock Out</option>
+    </select>
+</div>
+                    <div>
+                        <label class="block text-xs font-semibold mb-1">Image URL</label>
+                        <input type="file" id="productImageInput" accept="image/*">
+
+                    </div>
+                    <button type="submit" class="w-full bg-green-600 text-white font-bold py-2.5 rounded-lg hover:bg-green-700 transition">
+                        Upload Product to Store
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Product Details Modal -->
+    <div id="productModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-end sm:items-center justify-center hidden">
+        <div class="bg-white w-full sm:max-w-lg rounded-t-2xl sm:rounded-2xl max-h-[90vh] overflow-y-auto p-5 relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="fixed bottom-0 inset-x-0 bg-white border-t border-gray-200 flex justify-around py-2 z-40">
+        <button onclick="switchTab('home')" id="navHome" class="flex flex-col items-center text-orange-600 font-semibold text-xs">
+            <i class="fas fa-home text-lg mb-0.5"></i>
+            <span>Home</span>
+        </button>
+        <button onclick="switchTab('cart')" id="navCart" class="flex flex-col items-center text-gray-500 font-semibold text-xs">
+            <i class="fas fa-shopping-cart text-lg mb-0.5"></i>
+            <span>Cart</span>
+        </button>
+        <button onclick="switchTab('profile')" id="navProfile" class="flex flex-col items-center text-gray-500 font-semibold text-xs">
+            <i class="fas fa-user text-lg mb-0.5"></i>
+            <span>Profile</span>
+        </button>
+    </nav>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Database Collections (State)
+        let currentUser = {
+            id: 'user_101',
+            name: 'Taahsib',
+            isAdmin: false
+        };
+let products = JSON.parse(localStorage.getItem('nuri_products_v2')) || [];
+        // Render Functions
+        function renderProducts(items = products) {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = items.map(prod => `
+                <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between cursor-pointer" onclick="openModal(${prod.id})">
+                    <img src="${prod.image}" class="w-full h-36 object-cover" alt="${prod.name}">
+                    <div class="p-3 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-semibold text-xs text-gray-800 line-clamp-2">${prod.name}</h4>
+                            <div class="flex items-baseline space-x-1 mt-2">
+                                <span class="text-orange-600 font-extrabold text-sm">৳${prod.price}</span>
+                                ${prod.oldPrice ? `<span class="text-gray-400 line-through text-xs">৳${prod.oldPrice}</span>` : ''}
+                            </div>
+                        </div>
+                        <div class="flex items-center text-xs text-amber-500 mt-2">
+                            <i class="fas fa-star"></i>
+                            <span class="ml-1 text-gray-600 font-bold">${prod.rating || 4.5}</span>
+                            <span class="ml-1 text-gray-400">(${prod.reviews || 10})</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Search & Filter
+        function handleSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = products.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query));
+            renderProducts(filtered);
+        }
+
+        function filterCategory(cat) {
+            if (cat === 'All') renderProducts(products);
+            else renderProducts(products.filter(p => p.category === cat));
+        }
+
+        // Cart Actions
+        function addToCart(id) {
+            const prod = products.find(p => p.id === id);
+            cart.push(prod);
+            updateCartUI();
+            alert(`${prod.name} added to cart!`);
+        }
+
+        function updateCartUI() {
+            document.getElementById('cartBadge').innerText = cart.length;
+            const container = document.getElementById('cartItemsContainer');
+            const totalEl = document.getElementById('cartTotalPrice');
+
+            if (cart.length === 0) {
+                container.innerHTML = `<p class="text-gray-500 italic text-center py-6">Your cart is empty.</p>`;
+                totalEl.innerText = '৳0';
+                return;
+            }
+
+            let total = 0;
+            container.innerHTML = cart.map((item, index) => {
+                total += item.price;
+                return `
+                    <div class="bg-white p-3 rounded-lg flex items-center justify-between shadow-sm">
+                        <div class="flex items-center space-x-3">
+                            <img src="${item.image}" class="w-12 h-12 object-cover rounded">
+                            <div>
+                                <h5 class="font-semibold text-xs">${item.name}</h5>
+                                <span class="text-orange-600 font-bold text-xs">৳${item.price}</span>
+                            </div>
+                        </div>
+                        <button onclick="removeFromCart(${index})" class="text-red-500 text-xs font-bold hover:underline">Remove</button>
+                    </div>
+                `;
+            }).join('');
+
+            totalEl.innerText = `৳${total}`;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function placeOrder() {
+            if (cart.length === 0) return alert('Your cart is empty!');
+            const address = document.getElementById('checkoutAddress').value;
+            const phone = document.getElementById('checkoutPhone').value;
+            if (!address || !phone) return alert('Please enter delivery address and phone number.');
+
+            const method = document.getElementById('paymentMethod').value;
+            const newOrder = {
+                id: 'ORD-' + Math.floor(Math.random() * 900000 + 100000),
+                items: [...cart],
+                total: cart.reduce((a, b) => a + b.price, 0),
+                status: 'Processing',
+                payment: method
+            };
+
+            orders.unshift(newOrder);
+            cart = [];
+            updateCartUI();
+            renderOrders();
+            alert(`Order Placed Successfully via ${method}! Order ID: ${newOrder.id}`);
+            switchTab('profile');
+        }
+
+        function renderOrders() {
+            const list = document.getElementById('orderHistoryList');
+            if (orders.length === 0) {
+                list.innerHTML = `<p class="text-gray-500 italic">No orders placed yet.</p>`;
+                return;
+            }
+
+            list.innerHTML = orders.map(ord => `
+                <div class="border-b pb-3 mb-3 last:border-b-0">
+                    <div class="flex justify-between font-bold text-xs">
+                        <span>${ord.id}</span>
+                        <span class="text-orange-600">${ord.status}</span>
+                    </div>
+                    <div class="text-xs text-gray-500 mt-1">${ord.items.length} Items • Total: ৳${ord.total} (${ord.payment})</div>
+                </div>
+            `).join('');
+        }
+
+        // Product Modal
+        function openModal(id) {
+            const prod = products.find(p => p.id === id);
+            const content = document.getElementById('modalContent');
+            content.innerHTML = `
+                <img src="${prod.image}" class="w-full h-56 object-cover rounded-xl mb-4">
+                <h3 class="text-lg font-bold text-gray-800">${prod.name}</h3>
+                <div class="flex items-baseline space-x-2 my-2">
+                    <span class="text-2xl font-extrabold text-orange-600">৳${prod.price}</span>
+                    ${prod.oldPrice ? `<span class="text-gray-400 line-through text-sm">৳${prod.oldPrice}</span>` : ''}
+                </div>
+                <p class="text-xs text-gray-500 mb-4">Category: ${prod.category} | High Quality Guaranteed</p>
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="addToCart(${prod.id}); closeModal();" class="w-full bg-orange-100 text-orange-600 font-bold py-2.5 rounded-xl hover:bg-orange-200 transition">Add to Cart</button>
+                    <button onclick="addToCart(${prod.id}); closeModal(); switchTab('cart');" class="w-full bg-orange-600 text-white font-bold py-2.5 rounded-xl hover:bg-orange-700 transition">Buy Now</button>
+                </div>
+            `;
+            document.getElementById('productModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('productModal').classList.add('hidden');
+        }
+
+        // Role & Admin Toggle Logic
+        function toggleAdminRole() {
+            currentUser.isAdmin = !currentUser.isAdmin;
+            checkAdminRole();
+        }
+
+        function checkAdminRole() {
+            const btn = document.getElementById('adminToggleBtn');
+            const badge = document.getElementById('userRoleBadge');
+            const adminForm = document.getElementById('adminProductForm');
+
+            if (currentUser.isAdmin) {
+                btn.innerText = 'TRUE';
+                btn.className = 'px-3 py-1 text-xs font-bold rounded bg-green-600 text-white';
+                badge.innerText = 'Admin';
+                badge.className = 'text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded inline-block mt-1 font-semibold';
+                adminForm.classList.remove('hidden');
+            } else {
+                btn.innerText = 'FALSE';
+                btn.className = 'px-3 py-1 text-xs font-bold rounded bg-gray-300 text-gray-700';
+                badge.innerText = 'User';
+                badge.className = 'text-xs bg-gray-200 text-gray-700 px-2 py-0.5 rounded inline-block mt-1 font-semibold';
+                adminForm.classList.add('hidden');
+            }
+        }
+
+        function handleProductUpload(e) {
+            e.preventDefault();
+  function handleProductUpload(e) {
+    e.preventDefault();
+    const name = document.getElementById('prodName').value;
+    const price = parseFloat(document.getElementById('prodPrice').value);
+    const oldPrice = parseFloat(document.getElementById('prodOldPrice').value) || null;
+    const category = document.getElementById('prodCategory').value;
+    
+    const stockEl = document.getElementById('prodStock');
+    const stockStatus = stockEl ? stockEl.value : 'In Stock';
+    const image = uploadedImageBase64 || '';
+
+    const newProduct = {
+        id: Date.now(),
+        name,
+        price,
+        oldPrice,
+        category,
+        stock: stockStatus,
+        rating: 5.0,
+        reviews: 1,
+        image
+    };
+
+    products.unshift(newProduct);
+    localStorage.setItem('nuri_products_v2', JSON.stringify(products));
+
+    renderProducts();
+    alert('Product added successfully to store!');
+    e.target.reset();
+    uploadedImageBase64 = "";
+    switchTab('home');
+}
+          
+    renderProducts();
+    alert('Product added successfully to store!');
+    e.target.reset();
+    switchTab('home');
+}
+            
+
+            ['Home', 'Cart', 'Profile'].forEach(t => {
+                const nav = document.getElementById('nav' + t);
+                // Initialize App
+window.onload = function() {
+    renderProducts();
+    updateCartUI();
+    checkAdminRole();
+};
+
+            });
+        }
+
+// Initialize App
+window.onload = function() {
+    renderProducts();
+    updateCartUI();
+    checkAdminRole();
+};
+
+let uploadedImageBase64 = "";
+
+document.getElementById('productImageInput').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            uploadedImageBase64 = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+});
+</script>
+</body>
+</html>
