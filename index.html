@@ -7,16 +7,10 @@
     <!-- Tailwind CSS & FontAwesome -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
     <style>
-        /* iOS Liquid Glass Floating Dock */
         .liquid-dock {
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.65);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
             border: 1.5px solid rgba(255, 255, 255, 0.7);
@@ -29,7 +23,6 @@
             border: 1.5px solid rgba(255, 255, 255, 0.15);
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
         }
-
         .glass-header {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
@@ -42,7 +35,6 @@
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-
         .glass-card {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(15px);
@@ -56,62 +48,53 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Pure CSS Bag & Walking Person Animation Sequence */
-        @keyframes bagIntro {
-            0% { transform: scale(0.3) translateY(80px); opacity: 0; }
+        /* Perfect Bag Opening & Person Walking Animation */
+        @keyframes masterBagAnim {
+            0% { transform: scale(0.2) translateY(100px); opacity: 0; }
             20% { transform: scale(1) translateY(0); opacity: 1; }
-            80% { transform: scale(1) translateY(0); opacity: 1; }
-            100% { transform: scale(0.2) translateY(-80px); opacity: 0; }
+            35% { transform: scale(1.05) translateY(0); } /* Bag opens */
+            75% { transform: scale(1) translateY(0); opacity: 1; }
+            100% { transform: scale(0.2) translateY(-100px); opacity: 0; display: none; }
         }
-        @keyframes personWalk {
-            0% { transform: translateX(-50px); opacity: 0; }
+        @keyframes personMove {
+            0% { transform: translateX(-60px); opacity: 0; }
             25% { transform: translateX(0px); opacity: 1; }
-            45% { transform: translateX(45px); } /* Steps back */
-            70% { transform: translateX(0px); } /* Grabs handle */
-            90% { transform: translateX(-70px); opacity: 0; } /* Walks away */
+            50% { transform: translateX(40px); } /* Steps back after opening */
+            75% { transform: translateX(0px); } /* Grabs and walks away */
+            100% { transform: translateX(-80px); opacity: 0; }
         }
-        @keyframes textOut {
-            0% { opacity: 0; transform: translateY(15px); }
+        @keyframes brandTextEmerge {
+            0% { opacity: 0; transform: translateY(20px) scale(0.8); }
             30% { opacity: 0; }
-            50% { opacity: 1; transform: translateY(0); }
-            75% { opacity: 1; transform: translateY(0); }
-            85% { opacity: 0; transform: translateY(-15px); }
+            50% { opacity: 1; transform: translateY(0) scale(1.1); }
+            75% { opacity: 1; transform: translateY(0) scale(1); }
+            90% { opacity: 0; transform: translateY(-20px); }
         }
 
-        .anim-bag { animation: bagIntro 4.5s ease-in-out forwards; }
-        .anim-person { animation: personWalk 4.5s ease-in-out forwards; }
-        .anim-text { animation: textOut 4.5s ease-in-out forwards; }
+        .anim-bag-box { animation: masterBagAnim 5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        .anim-person-box { animation: personMove 5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        .anim-text-box { animation: brandTextEmerge 5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
     </style>
 </head>
 <body id="bodyTheme" class="bg-rose-50 text-slate-800 font-sans select-none pb-28 transition-colors duration-500">
 
-    <!-- Splash Intro Animation Screen -->
+    <!-- Splash Screen Animation -->
     <div id="splashScreen" class="fixed inset-0 bg-gradient-to-br from-rose-500 via-pink-600 to-purple-800 z-50 flex flex-col items-center justify-center text-white overflow-hidden">
-        
-        <div class="relative flex flex-col items-center anim-bag px-4 text-center">
-            
-            <div class="relative flex items-center justify-center mb-6">
-                <!-- Person Figure Walking -->
-                <div class="anim-person mr-4 text-4xl text-white drop-shadow-md">
+        <div class="relative flex flex-col items-center anim-bag-box px-4 text-center">
+            <div class="relative flex items-center justify-center mb-5">
+                <div class="anim-person-box mr-4 text-4xl text-white drop-shadow-md">
                     <i class="fa-solid fa-person-walking-luggage"></i>
                 </div>
-
-                <!-- Bag Icon -->
-                <div class="w-28 h-28 bg-white/20 backdrop-blur-md rounded-3xl border border-white/40 flex items-center justify-center shadow-2xl relative">
+                <div class="w-32 h-32 bg-white/20 backdrop-blur-md rounded-3xl border border-white/40 flex items-center justify-center shadow-2xl relative">
                     <i class="fa-solid fa-bag-shopping text-6xl text-white"></i>
-                    <span class="absolute -top-3 bg-white text-rose-600 px-3 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider shadow">Open</span>
+                    <span class="absolute -top-3.5 bg-white text-rose-600 px-3 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider shadow">Bag Opened</span>
                 </div>
             </div>
-
-            <!-- Emerged Text -->
-            <div class="anim-text">
+            <div class="anim-text-box">
                 <h1 class="text-3xl font-black tracking-wide drop-shadow-xl text-white">Nuri Taahsib Mart</h1>
                 <p class="text-xs text-rose-100 font-medium tracking-widest uppercase mt-1">iOS Liquid Experience</p>
             </div>
-
         </div>
-
-        <!-- Fixed Footer Branding -->
         <div class="absolute bottom-6 text-xs text-rose-200 tracking-wider font-semibold">
             Powered by Taahsib Akid
         </div>
@@ -133,23 +116,23 @@
                 <i class="fa-solid fa-lock mr-1"></i> Admin
             </button>
             <div id="userProfileArea">
-                <button onclick="loginWithGoogle()" class="px-3.5 py-1.5 bg-rose-600 text-white rounded-xl text-xs font-bold shadow-md active:scale-95 transition">
-                    <i class="fa-brands fa-google mr-1"></i> Login
+                <button onclick="openProfileModal()" class="px-3.5 py-1.5 bg-rose-600 text-white rounded-xl text-xs font-bold shadow-md active:scale-95 transition">
+                    <i class="fa-solid fa-user mr-1"></i> Profile
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Main App View -->
+    <!-- Main Container -->
     <main class="max-w-md mx-auto p-4">
         
-        <!-- User View -->
+        <!-- Shop View -->
         <div id="userViewSection">
             <div class="w-full bg-gradient-to-r from-rose-500 to-pink-600 rounded-3xl p-5 text-white shadow-lg mb-6 relative overflow-hidden">
                 <div class="relative z-10">
                     <span class="bg-white/20 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">iOS Liquid Store</span>
                     <h2 class="text-xl font-black mt-2">Luxurious Shopping</h2>
-                    <p class="text-xs text-rose-100 mt-1">Instant Google Auth & Admin Notification Sync.</p>
+                    <p class="text-xs text-rose-100 mt-1">GPS Location Sync & Live Admin Order Tracking.</p>
                 </div>
                 <div class="absolute -right-6 -bottom-6 text-white/10 text-8xl">
                     <i class="fa-solid fa-bag-shopping"></i>
@@ -163,20 +146,23 @@
             <div id="productGrid" class="grid grid-cols-2 gap-3"></div>
         </div>
 
-        <!-- Admin View (Midnight Black Mode) -->
+        <!-- Admin Dashboard View (Black Mode) -->
         <div id="adminViewSection" class="hidden space-y-5">
             <div class="p-4 admin-glass-card rounded-2xl shadow-lg border border-slate-700 text-white">
-                <h3 class="font-bold text-base text-rose-400 mb-3"><i class="fa-solid fa-circle-plus mr-2"></i>Add Product (Admin Mode)</h3>
+                <h3 class="font-bold text-base text-rose-400 mb-3"><i class="fa-solid fa-circle-plus mr-2"></i>Add Product (Image Upload)</h3>
                 <form id="addProductForm" onsubmit="handleAddProduct(event)" class="space-y-3">
                     <input type="text" id="pName" placeholder="Product Name" required class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-rose-500">
                     <input type="number" id="pPrice" placeholder="Price (৳)" required class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-rose-500">
-                    <input type="url" id="pImg" placeholder="Image Link (URL)" required class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-rose-500">
-                    <button type="submit" class="w-full py-2.5 bg-rose-600 text-white font-bold rounded-xl text-xs shadow-md active:scale-95 transition">Publish to Store</button>
+                    <div>
+                        <label class="block text-[10px] text-slate-400 mb-1 font-semibold">Upload Product Image from Device:</label>
+                        <input type="file" id="pImageFile" accept="image/*" required class="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-rose-600 file:text-white hover:file:bg-rose-700 cursor-pointer">
+                    </div>
+                    <button type="submit" class="w-full py-2.5 bg-rose-600 text-white font-bold rounded-xl text-xs shadow-md active:scale-95 transition">Upload to Store</button>
                 </form>
             </div>
 
             <div class="p-4 admin-glass-card rounded-2xl shadow-lg border border-slate-700 text-white">
-                <h3 class="font-bold text-base text-rose-400 mb-3"><i class="fa-solid fa-bell mr-2"></i>Live Orders & Notifications</h3>
+                <h3 class="font-bold text-base text-rose-400 mb-3"><i class="fa-solid fa-bell mr-2"></i>Live Admin Orders & GPS Location</h3>
                 <div id="adminOrdersList" class="space-y-2"></div>
             </div>
         </div>
@@ -202,6 +188,28 @@
         </div>
     </nav>
 
+    <!-- Product Detail Full Page Modal -->
+    <div id="productDetailModal" class="fixed inset-0 bg-black/60 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md rounded-3xl p-6 shadow-2xl relative overflow-y-auto max-h-[90vh]">
+            <button onclick="closeProductDetail()" class="absolute top-4 right-4 w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center text-slate-600 font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <img id="detailImg" src="" class="w-full h-56 object-cover rounded-2xl mb-4 shadow-md">
+            <h2 id="detailName" class="text-xl font-black text-slate-800 mb-2"></h2>
+            <p id="detailPrice" class="text-rose-600 text-lg font-extrabold mb-4"></p>
+            <p class="text-xs text-slate-500 mb-6 leading-relaxed">High quality iOS liquid glassmorphism product item. Ready for instant secure checkout with GPS location tracking.</p>
+            <button id="detailAddToCartBtn" class="w-full py-3 bg-rose-600 text-white font-bold rounded-2xl shadow-lg active:scale-95 transition">Add to Cart</button>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="fixed inset-0 bg-black/60 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-xs rounded-3xl p-6 shadow-2xl text-center">
+            <div class="flex justify-end"><button onclick="closeProfileModal()" class="text-slate-400"><i class="fa-solid fa-xmark text-lg"></i></button></div>
+            <div id="profileContent" class="py-4">
+                <!-- Profile details -->
+            </div>
+        </div>
+    </div>
+
     <!-- Cart Modal -->
     <div id="cartModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-end">
         <div class="bg-white w-full max-w-md mx-auto rounded-t-3xl p-5 max-h-[80vh] overflow-y-auto shadow-2xl">
@@ -214,7 +222,7 @@
                 <span>Total:</span>
                 <span id="cartTotalPrice" class="text-rose-600">৳0</span>
             </div>
-            <button onclick="checkoutOrder()" class="w-full py-3 bg-rose-600 text-white font-bold rounded-2xl shadow-lg active:scale-95 transition">Place Order Now</button>
+            <button onclick="checkoutOrder()" class="w-full py-3 bg-rose-600 text-white font-bold rounded-2xl shadow-lg active:scale-95 transition">Place Order with GPS Location</button>
         </div>
     </div>
 
@@ -235,16 +243,15 @@
     <div id="myOrdersModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-end">
         <div class="bg-white w-full max-w-md mx-auto rounded-t-3xl p-5 max-h-[80vh] overflow-y-auto shadow-2xl">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="font-bold text-base text-slate-800">My Orders & Tracking</h3>
+                <h3 class="font-bold text-base text-slate-800">My Orders & Status</h3>
                 <button onclick="closeMyOrdersModal()" class="text-slate-400"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <div id="myOrdersListContainer" class="space-y-3"></div>
         </div>
     </div>
 
-    <!-- Robust Functional Script Engine -->
+    <!-- Full Functional Engine -->
     <script>
-        // Automatic State Persistence
         let currentUser = JSON.parse(localStorage.getItem('nuri_user')) || null;
         let cart = [];
         let isAdmin = false;
@@ -256,54 +263,80 @@
 
         let orders = JSON.parse(localStorage.getItem('nuri_orders')) || [];
 
-        // Intro Hide Logic
         setTimeout(() => {
             const splash = document.getElementById('splashScreen');
             if(splash) splash.style.display = 'none';
-        }, 4500);
+        }, 5000);
 
-        // Google Authentication Handling
-        function updateProfileUI() {
-            const profileArea = document.getElementById('userProfileArea');
+        // Profile & Google Login
+        function openProfileModal() {
+            document.getElementById('profileModal').classList.remove('hidden');
+            const content = document.getElementById('profileContent');
             if (currentUser) {
-                profileArea.innerHTML = `
-                    <div class="flex items-center space-x-2 bg-rose-100 px-3 py-1 rounded-full shadow-sm">
-                        <img src="${currentUser.photo}" class="w-5 h-5 rounded-full">
-                        <span class="text-xs font-bold text-rose-800">${currentUser.name}</span>
-                    </div>
+                content.innerHTML = `
+                    <img src="${currentUser.photo}" class="w-16 h-16 rounded-full mx-auto mb-3 shadow-md">
+                    <h4 class="font-bold text-slate-800 text-base">${currentUser.name}</h4>
+                    <p class="text-xs text-slate-500 mb-4">${currentUser.email}</p>
+                    <button onclick="logoutUser()" class="w-full py-2 bg-red-500 text-white font-bold rounded-xl text-xs">Logout</button>
                 `;
             } else {
-                profileArea.innerHTML = `<button onclick="loginWithGoogle()" class="px-3.5 py-1.5 bg-rose-600 text-white rounded-xl text-xs font-bold shadow-md active:scale-95 transition"><i class="fa-brands fa-google mr-1"></i> Login</button>`;
+                content.innerHTML = `
+                    <i class="fa-solid fa-user-circle text-5xl text-rose-500 mb-3"></i>
+                    <h4 class="font-bold text-slate-800 text-sm mb-1">Not Logged In</h4>
+                    <p class="text-xs text-slate-400 mb-4">Login with Google to start shopping & tracking orders.</p>
+                    <button onclick="loginWithGoogle()" class="w-full py-2.5 bg-rose-600 text-white font-bold rounded-xl text-xs shadow-md"><i class="fa-brands fa-google mr-1"></i> Google Login</button>
+                `;
             }
         }
+        function closeProfileModal() { document.getElementById('profileModal').classList.add('hidden'); }
 
         function loginWithGoogle() {
-            // Instant Responsive Google Login Simulation
-            const mockNames = ["Taahsib Akid", "Nuri User", "Customer"];
-            const randomName = mockNames[Math.floor(Math.random() * mockNames.length)];
             currentUser = {
-                name: randomName,
-                email: randomName.toLowerCase().replace(" ", "") + "@gmail.com",
+                name: "Taahsib Akid",
+                email: "taahsib@gmail.com",
                 photo: "https://lh3.googleusercontent.com/a/default-user=s96-c"
             };
             localStorage.setItem('nuri_user', JSON.stringify(currentUser));
-            updateProfileUI();
-            alert("Google Sign-In Successful as " + currentUser.name + "!");
+            closeProfileModal();
+            alert("Google Login Successful!");
         }
 
-        // Product Catalog System
+        function logoutUser() {
+            currentUser = null;
+            localStorage.removeItem('nuri_user');
+            closeProfileModal();
+            alert("Logged out successfully.");
+        }
+
+        // Product Catalog & Full Page Detail View
         function renderProducts() {
             const grid = document.getElementById('productGrid');
             document.getElementById('productCount').innerText = `${products.length} items`;
             grid.innerHTML = products.map(p => `
-                <div class="${isAdmin ? 'admin-glass-card text-white' : 'glass-card text-slate-800'} p-3 rounded-2xl shadow-md flex flex-col justify-between">
+                <div onclick="openProductDetail('${p.id}')" class="${isAdmin ? 'admin-glass-card text-white' : 'glass-card text-slate-800'} p-3 rounded-2xl shadow-md flex flex-col justify-between cursor-pointer active:scale-95 transition">
                     <img src="${p.img}" class="w-full h-28 object-cover rounded-xl mb-2">
                     <h4 class="font-bold text-xs truncate">${p.name}</h4>
                     <p class="text-rose-500 font-extrabold text-sm my-1">৳${p.price}</p>
-                    <button onclick="addToCart('${p.id}')" class="w-full py-1.5 bg-rose-600 text-white font-bold rounded-xl text-xs active:scale-95 transition">Add to Cart</button>
+                    <span class="text-[10px] text-slate-400 font-semibold underline">Tap to view details</span>
                 </div>
             `).join('');
         }
+
+        function openProductDetail(id) {
+            const p = products.find(item => item.id === id);
+            if(p) {
+                document.getElementById('detailImg').src = p.img;
+                document.getElementById('detailName').innerText = p.name;
+                document.getElementById('detailPrice').innerText = `৳${p.price}`;
+                document.getElementById('detailAddToCartBtn').onclick = () => {
+                    addToCart(p.id);
+                    closeProductDetail();
+                    openCartModal();
+                };
+                document.getElementById('productDetailModal').classList.remove('hidden');
+            }
+        }
+        function closeProductDetail() { document.getElementById('productDetailModal').classList.add('hidden'); }
 
         function addToCart(id) {
             const prod = products.find(p => p.id === id);
@@ -335,12 +368,31 @@
         function closeCartModal() { document.getElementById('cartModal').classList.add('hidden'); }
         function removeFromCart(index) { cart.splice(index, 1); openCartModal(); document.getElementById('cartBadge').innerText = cart.length; }
 
+        // Checkout with GPS Location
         function checkoutOrder() {
             if(cart.length === 0) { alert('Cart is empty!'); return; }
+            if(!currentUser) { alert('Please login with Google first!'); openProfileModal(); return; }
+
+            // Get GPS Location
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    saveOrderWithLocation(`Lat: ${lat.toFixed(4)}, Lon: ${lon.toFixed(4)}`);
+                }, error => {
+                    saveOrderWithLocation("Location Access Denied / Manual");
+                });
+            } else {
+                saveOrderWithLocation("GPS Not Supported");
+            }
+        }
+
+        function saveOrderWithLocation(loc) {
             const newOrder = {
                 id: Date.now().toString(),
-                user: currentUser ? currentUser.name : 'Guest Customer',
-                email: currentUser ? currentUser.email : 'guest@mart.com',
+                user: currentUser.name,
+                email: currentUser.email,
+                location: loc,
                 items: [...cart],
                 total: cart.reduce((sum, i) => sum + Number(i.price), 0),
                 status: 'Pending Admin Approval',
@@ -348,13 +400,13 @@
             };
             orders.push(newOrder);
             localStorage.setItem('nuri_orders', JSON.stringify(orders));
-            alert('Order placed successfully! Admin notified.');
+            alert('Order placed successfully with GPS Location! Admin notified.');
             cart = [];
             document.getElementById('cartBadge').innerText = '0';
             closeCartModal();
         }
 
-        // Admin Auth with Pass: Taahsibnuri009
+        // Admin Auth & Image Upload Handling
         function openAdminLoginModal() { document.getElementById('adminLoginModal').classList.remove('hidden'); }
         function closeAdminLoginModal() { document.getElementById('adminLoginModal').classList.add('hidden'); }
 
@@ -365,7 +417,7 @@
                 closeAdminLoginModal();
                 activateAdminMode();
             } else {
-                alert('Incorrect Admin Password! Try: Taahsibnuri009');
+                alert('Incorrect Admin Password!');
             }
         }
 
@@ -387,27 +439,36 @@
 
         function handleAddProduct(e) {
             e.preventDefault();
-            const newP = {
-                id: Date.now().toString(),
-                name: document.getElementById('pName').value,
-                price: document.getElementById('pPrice').value,
-                img: document.getElementById('pImg').value
-            };
-            products.push(newP);
-            localStorage.setItem('nuri_products', JSON.stringify(products));
-            alert('Product Published to Store!');
-            document.getElementById('addProductForm').reset();
-            renderProducts();
+            const fileInput = document.getElementById('pImageFile');
+            const file = fileInput.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = function(uploadEvent) {
+                    const newP = {
+                        id: Date.now().toString(),
+                        name: document.getElementById('pName').value,
+                        price: document.getElementById('pPrice').value,
+                        img: uploadEvent.target.result
+                    };
+                    products.push(newP);
+                    localStorage.setItem('nuri_products', JSON.stringify(products));
+                    alert('Product Published with Image!');
+                    document.getElementById('addProductForm').reset();
+                    renderProducts();
+                };
+                reader.readAsDataURL(file);
+            }
         }
 
         function renderAdminOrders() {
             const list = document.getElementById('adminOrdersList');
             list.innerHTML = orders.map(o => `
                 <div class="bg-slate-800 p-3 rounded-xl border border-slate-700 text-xs shadow-md">
-                    <p class="font-bold text-rose-400">Customer: ${o.user} (${o.email})</p>
-                    <p class="text-slate-300 mt-1">Total: ৳${o.total} | Status: <span class="text-yellow-400 font-bold">${o.status}</span></p>
+                    <p class="font-bold text-rose-400">Customer: ${o.user}</p>
+                    <p class="text-slate-300 mt-0.5">GPS Location: <span class="text-cyan-400 font-bold">${o.location}</span></p>
+                    <p class="text-slate-300 mt-0.5">Total: ৳${o.total} | Status: <span class="text-yellow-400 font-bold">${o.status}</span></p>
                     <p class="text-[10px] text-slate-400 mb-2">${o.time}</p>
-                    ${o.status === 'Pending Admin Approval' ? `<button onclick="confirmOrder('${o.id}')" class="px-3 py-1.5 bg-green-600 text-white font-bold rounded-lg shadow active:scale-95 transition">Accept & Confirm Order</button>` : '<span class="text-green-400 font-bold">Confirmed ✅</span>'}
+                    ${o.status === 'Pending Admin Approval' ? `<button onclick="confirmOrder('${o.id}')" class="px-3 py-1.5 bg-green-600 text-white font-bold rounded-lg shadow active:scale-95 transition">Accept & Publish Order</button>` : '<span class="text-green-400 font-bold">Confirmed & Published ✅</span>'}
                 </div>
             `).join('') || '<p class="text-xs text-slate-400 py-2">No active orders.</p>';
         }
@@ -415,10 +476,10 @@
         function confirmOrder(id) {
             const o = orders.find(item => item.id === id);
             if(o) {
-                o.status = 'Order Confirmed & Accepted ✅';
+                o.status = 'Confirmed & Published ✅';
                 localStorage.setItem('nuri_orders', JSON.stringify(orders));
                 renderAdminOrders();
-                alert('Order Confirmed!');
+                alert('Order Confirmed and Published to User Panel!');
             }
         }
 
@@ -427,7 +488,8 @@
             const container = document.getElementById('myOrdersListContainer');
             container.innerHTML = orders.map(o => `
                 <div class="bg-slate-50 p-3 rounded-xl border text-xs shadow-sm">
-                    <p class="font-bold text-slate-800">Total Amount: ৳${o.total}</p>
+                    <p class="font-bold text-slate-800">Total: ৳${o.total}</p>
+                    <p class="text-slate-500 mt-0.5">GPS: ${o.location}</p>
                     <p class="text-slate-500 mt-0.5">Live Status: <span class="font-bold text-rose-600">${o.status}</span></p>
                     <p class="text-[10px] text-slate-400 mt-1">${o.time}</p>
                 </div>
@@ -441,8 +503,6 @@
             }
         }
 
-        // Init App
-        updateProfileUI();
         renderProducts();
     </script>
 </body>
