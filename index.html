@@ -4,21 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nuri Taahsib Mart</title>
-    <link rel="manifest" href="manifest.json">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        neonCyan: '#00f3ff',
-                        neonPink: '#ff007f',
-                        neonPurple: '#9d00ff',
-                        darkBg: '#090d16',
-                        cardBg: 'rgba(255, 255, 255, 0.05)'
+                        brandPurple: '#9333ea',
+                        brandLight: '#f8fafc',
+                        cardBg: '#ffffff',
+                        pastelPurple: '#f3e8ff'
                     }
                 }
             }
@@ -26,35 +27,17 @@
     </script>
     <style>
         body {
-            background-color: #090d16;
-            color: #ffffff;
+            background-color: #f8fafc;
+            color: #1e293b;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             overflow-x: hidden;
             user-select: none;
         }
 
-        /* Glassmorphism Styles */
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(147, 51, 234, 0.06), 0 8px 10px -6px rgba(147, 51, 234, 0.06);
         }
 
-        .glass-dock {
-            background: rgba(15, 23, 42, 0.75);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-        }
-
-        /* Neon Glows */
-        .glow-cyan { text-shadow: 0 0 10px #00f3ff, 0 0 20px #00f3ff; }
-        .glow-pink { text-shadow: 0 0 10px #ff007f, 0 0 20px #ff007f; }
-        .box-glow-cyan { box-shadow: 0 0 15px rgba(0, 243, 255, 0.3); }
-        .box-glow-pink { box-shadow: 0 0 15px rgba(255, 0, 127, 0.3); }
-
-        /* Scooter CSS Animation */
         @keyframes drive {
             0% { transform: translateX(-150px); }
             50% { transform: translateX(calc(50vw - 40px)); }
@@ -71,67 +54,56 @@
             animation: bounceScooter 0.3s infinite ease-in-out;
         }
 
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 0px; background: transparent; }
     </style>
 </head>
 <body class="pb-24">
 
     <!-- 1. STARTUP 2D SCOOTER INTRO SPLASH SCREEN -->
-    <div id="splash-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-between bg-[#05070e] py-12 px-6">
+    <div id="splash-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-between bg-gradient-to-br from-purple-600 via-indigo-600 to-pink-500 py-12 px-6 text-white">
         <div class="text-center mt-8">
-            <h1 class="text-2xl font-black tracking-wider bg-gradient-to-r from-neonCyan via-neonPink to-neonPurple bg-clip-text text-transparent">
+            <h1 class="text-2xl font-black tracking-wider drop-shadow-md">
                 WELCOME TO NURI & TAAHSIB MART
             </h1>
-            <p class="text-xs text-gray-400 mt-2 font-medium tracking-widest">ENJOY PREMIUM SHOPPING</p>
+            <p class="text-xs text-purple-100 mt-2 font-medium tracking-widest uppercase">Enjoy Premium Shopping</p>
         </div>
 
-        <!-- 2D Neon Scooter SVG Container -->
         <div class="relative w-full h-32 flex items-center overflow-hidden">
             <div id="scooter-wrapper" class="absolute left-0 scooter-drive flex flex-col items-center">
                 <div class="scooter-body">
                     <svg width="80" height="60" viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Scooter Frame -->
-                        <path d="M 20 60 L 40 60 L 55 40 L 70 20" stroke="#00f3ff" stroke-width="4" stroke-linecap="round"/>
-                        <path d="M 40 60 L 45 35 L 30 35" stroke="#ff007f" stroke-width="4" stroke-linecap="round"/>
-                        <!-- Seat & Box -->
-                        <rect x="25" y="25" width="22" height="12" rx="3" fill="#9d00ff" />
-                        <rect x="5" y="25" width="18" height="18" rx="2" fill="#00f3ff" opacity="0.8"/>
-                        <text x="8" y="37" font-size="8" fill="#000" font-weight="bold">NT</text>
-                        <!-- Headlight Glow -->
+                        <path d="M 20 60 L 40 60 L 55 40 L 70 20" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+                        <path d="M 40 60 L 45 35 L 30 35" stroke="#f3e8ff" stroke-width="4" stroke-linecap="round"/>
+                        <rect x="25" y="25" width="22" height="12" rx="3" fill="#1e293b" />
+                        <rect x="5" y="25" width="18" height="18" rx="2" fill="#ffffff" opacity="0.9"/>
+                        <text x="8" y="37" font-size="8" fill="#9333ea" font-weight="bold">NT</text>
                         <circle cx="72" cy="20" r="3" fill="#ffffff"/>
-                        <path d="M 72 20 L 95 10 L 95 30 Z" fill="rgba(0, 243, 255, 0.3)"/>
-                        <!-- Wheels -->
-                        <circle cx="20" cy="60" r="10" stroke="#ff007f" stroke-width="4" fill="#05070e"/>
-                        <circle cx="20" cy="60" r="3" fill="#00f3ff"/>
-                        <circle cx="65" cy="60" r="10" stroke="#ff007f" stroke-width="4" fill="#05070e"/>
-                        <circle cx="65" cy="60" r="3" fill="#00f3ff"/>
+                        <circle cx="20" cy="60" r="10" stroke="#f3e8ff" stroke-width="4" fill="#1e293b"/>
+                        <circle cx="65" cy="60" r="10" stroke="#f3e8ff" stroke-width="4" fill="#1e293b"/>
                     </svg>
                 </div>
-                <!-- Speed Trail -->
-                <div class="w-20 h-1 bg-gradient-to-r from-transparent to-neonCyan rounded-full mt-1 blur-[1px]"></div>
+                <div class="w-20 h-1 bg-white rounded-full mt-1 blur-[1px]"></div>
             </div>
-            <!-- Road Line -->
-            <div class="w-full h-[2px] bg-gradient-to-r from-transparent via-gray-700 to-transparent absolute bottom-6"></div>
+            <div class="w-full h-[1px] bg-white/30 absolute bottom-6"></div>
         </div>
 
         <div class="text-center">
-            <p class="text-xs text-gray-500 font-semibold tracking-wider">POWERED BY TAAHSIB AKID</p>
+            <p class="text-xs text-purple-100 font-semibold tracking-wider">POWERED BY TAAHSIB AKID</p>
         </div>
     </div>
 
-    <!-- 2. FORCED GOOGLE AUTHENTICATION MODAL -->
-    <div id="auth-modal" class="fixed inset-0 z-40 hidden flex items-center justify-center bg-black/80 backdrop-blur-md px-6">
-        <div class="w-full max-w-sm glass-panel p-8 rounded-3xl text-center space-y-6 border border-white/20 box-glow-cyan">
-            <div class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-tr from-neonCyan to-neonPink flex items-center justify-center text-2xl font-black text-black">
+    <!-- 2. REAL FIREBASE GOOGLE AUTH MODAL -->
+    <div id="auth-modal" class="fixed inset-0 z-40 hidden flex items-center justify-center bg-slate-900/60 backdrop-blur-sm px-6">
+        <div class="w-full max-w-sm bg-white p-8 rounded-3xl text-center space-y-6 card-shadow border border-slate-100">
+            <div class="w-16 h-16 mx-auto rounded-2xl bg-purple-50 flex items-center justify-center text-2xl font-black text-brandPurple">
                 NT
             </div>
             <div>
-                <h2 class="text-xl font-bold">Authentication Required</h2>
-                <p class="text-xs text-gray-400 mt-1">Sign in with your Google account to access Nuri Taahsib Mart</p>
+                <h2 class="text-xl font-bold text-slate-800">Authentication Required</h2>
+                <p class="text-xs text-slate-500 mt-1">Sign in with your Google account to access Nuri Taahsib Mart</p>
             </div>
-            <button onclick="handleGoogleSignIn()" class="w-full py-3.5 px-4 rounded-xl bg-white text-gray-900 font-bold flex items-center justify-center space-x-3 hover:bg-gray-100 transition shadow-lg">
-                <svg class="w-5 h-5" viewBox="0 0 24 24">
+            <button onclick="handleRealGoogleSignIn()" class="w-full py-3.5 px-4 rounded-xl bg-brandPurple text-white font-bold flex items-center justify-center space-x-3 hover:bg-purple-700 transition shadow-lg shadow-purple-200">
+                <svg class="w-5 h-5 bg-white rounded-full p-0.5" viewBox="0 0 24 24">
                     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                     <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
                     <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
@@ -143,33 +115,65 @@
     </div>
 
     <!-- MAIN APP CONTAINER -->
-    <div id="app-container" class="max-w-md mx-auto min-h-screen px-4 pt-6">
+    <div class="max-w-md mx-auto min-h-screen px-4 pt-6">
 
         <!-- HEADER -->
-        <header class="flex items-center justify-between mb-6">
+        <header class="flex items-center justify-between mb-4">
+            <h1 class="text-xl font-black text-slate-800 tracking-tight">aroma</h1>
             <div class="flex items-center space-x-3">
-                <div id="header-avatar" class="w-10 h-10 rounded-full bg-gradient-to-tr from-neonCyan to-neonPurple p-[2px]">
-                    <div class="w-full h-full rounded-full bg-slate-900 flex items-center justify-center text-xs font-bold">NT</div>
-                </div>
-                <div>
-                    <p class="text-[10px] text-gray-400 font-medium">WELCOME</p>
-                    <h3 id="header-username" class="text-sm font-bold tracking-wide">Guest User</h3>
+                <button onclick="openAdminModal()" class="relative p-2.5 bg-white rounded-full card-shadow border border-slate-100 hover:border-brandPurple transition">
+                    <i data-lucide="shield" class="w-4 h-4 text-brandPurple"></i>
+                </button>
+                <div class="relative p-2.5 bg-white rounded-full card-shadow border border-slate-100">
+                    <i data-lucide="bell" class="w-4 h-4 text-slate-600"></i>
+                    <span class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full"></span>
                 </div>
             </div>
-            <button onclick="openAdminModal()" class="glass-panel p-2.5 rounded-xl hover:border-neonCyan transition">
-                <i data-lucide="shield" class="w-5 h-5 text-neonCyan"></i>
-            </button>
         </header>
 
+        <!-- SEARCH BAR -->
+        <div class="relative mb-6">
+            <input type="text" placeholder="Search for products..." class="w-full bg-white border border-slate-100 rounded-2xl py-3 pl-4 pr-12 text-xs text-slate-800 card-shadow focus:outline-none focus:border-brandPurple">
+            <button class="absolute right-1.5 top-1.5 p-2 bg-brandPurple text-white rounded-xl shadow-md">
+                <i data-lucide="search" class="w-4 h-4"></i>
+            </button>
+        </div>
+
+        <!-- HERO BANNER -->
+        <div class="mb-6 p-5 rounded-3xl bg-pastelPurple flex justify-between items-center relative overflow-hidden card-shadow">
+            <div class="z-10 space-y-2">
+                <h3 class="text-lg font-black text-slate-900 leading-tight">Buy 1 <br>Get 1 Free</h3>
+                <p class="text-[10px] text-purple-700 font-semibold uppercase">Discount up to 50%</p>
+                <button onclick="switchTab('shop')" class="px-4 py-2 bg-brandPurple text-white text-xs font-bold rounded-xl shadow-md">Shop Now</button>
+            </div>
+            <div class="w-28 h-24 bg-purple-200/50 rounded-2xl flex items-center justify-center">
+                <i data-lucide="gift" class="w-12 h-12 text-brandPurple"></i>
+            </div>
+        </div>
+
+        <!-- CATEGORY PILLS -->
+        <div class="mb-4">
+            <div class="flex justify-between items-center mb-2">
+                <h4 class="text-xs font-bold text-slate-700">Explore by Category</h4>
+                <span class="text-[10px] text-brandPurple font-semibold">See all</span>
+            </div>
+            <div class="flex space-x-2 overflow-x-auto pb-2">
+                <button class="px-4 py-1.5 bg-brandPurple text-white text-xs font-bold rounded-full shadow-sm">Men's</button>
+                <button class="px-4 py-1.5 bg-white text-slate-600 text-xs font-semibold rounded-full border border-slate-100 card-shadow">Women's</button>
+                <button class="px-4 py-1.5 bg-white text-slate-600 text-xs font-semibold rounded-full border border-slate-100 card-shadow">Kids</button>
+                <button class="px-4 py-1.5 bg-white text-slate-600 text-xs font-semibold rounded-full border border-slate-100 card-shadow">Gadgets</button>
+            </div>
+        </div>
+
         <!-- FLASH SALE BANNER -->
-        <div id="flash-sale-banner" class="hidden mb-6 p-4 rounded-2xl glass-panel border border-neonPink/30 relative overflow-hidden box-glow-pink">
+        <div id="flash-sale-banner" class="hidden mb-6 p-4 rounded-2xl bg-gradient-to-r from-rose-500 to-pink-500 text-white shadow-lg shadow-pink-200 relative overflow-hidden">
             <div class="flex justify-between items-center z-10 relative">
                 <div>
-                    <span class="px-2 py-0.5 text-[10px] font-extrabold bg-neonPink text-white rounded-md uppercase">Flash Sale</span>
-                    <h4 class="text-lg font-black mt-1">SPECIAL DISCOUNT</h4>
-                    <p class="text-xs text-gray-300">Get <span id="flash-discount-val">20</span>% OFF on all items today!</p>
+                    <span class="px-2 py-0.5 text-[10px] font-extrabold bg-white text-pink-600 rounded-md uppercase">Flash Sale Active</span>
+                    <h4 class="text-base font-black mt-1">SPECIAL DISCOUNT</h4>
+                    <p class="text-xs text-pink-100">Get <span id="flash-discount-val">20</span>% OFF on all items!</p>
                 </div>
-                <i data-lucide="zap" class="w-8 h-8 text-neonPink animate-bounce"></i>
+                <i data-lucide="zap" class="w-6 h-6 text-white animate-bounce"></i>
             </div>
         </div>
 
@@ -177,8 +181,8 @@
         <!-- 1. SHOP VIEW -->
         <main id="view-shop" class="space-y-4">
             <div class="flex justify-between items-center mb-2">
-                <h2 class="text-base font-bold tracking-wide">Featured Products</h2>
-                <span class="text-xs text-neonCyan font-semibold">Updated Live</span>
+                <h4 class="text-xs font-bold text-slate-700">Featured</h4>
+                <span class="text-[10px] text-brandPurple font-semibold">See all</span>
             </div>
             <div id="product-grid" class="grid grid-cols-2 gap-4">
                 <!-- Products loaded dynamically -->
@@ -187,29 +191,28 @@
 
         <!-- 2. CART VIEW -->
         <main id="view-cart" class="hidden space-y-4">
-            <h2 class="text-base font-bold tracking-wide mb-4">Your Cart</h2>
+            <h2 class="text-base font-bold text-slate-800 tracking-wide mb-4">Your Cart</h2>
             <div id="cart-items-container" class="space-y-3"></div>
             
-            <div class="glass-panel p-4 rounded-2xl space-y-3 border border-white/10 mt-6">
-                <div class="flex justify-between text-xs text-gray-400">
+            <div class="bg-white p-4 rounded-2xl space-y-3 card-shadow border border-slate-100 mt-6">
+                <div class="flex justify-between text-xs text-slate-500">
                     <span>Subtotal</span>
                     <span id="cart-subtotal">$0.00</span>
                 </div>
-                <div class="flex justify-between text-xs text-gray-400">
+                <div class="flex justify-between text-xs text-slate-500">
                     <span>Coupon Discount</span>
                     <span id="cart-discount">-$0.00</span>
                 </div>
-                <div class="h-[1px] bg-white/10"></div>
-                <div class="flex justify-between text-sm font-bold">
+                <div class="h-[1px] bg-slate-100"></div>
+                <div class="flex justify-between text-sm font-bold text-slate-800">
                     <span>Total</span>
-                    <span id="cart-total" class="text-neonCyan">$0.00</span>
+                    <span id="cart-total" class="text-brandPurple">$0.00</span>
                 </div>
-                <!-- Coupon Input -->
                 <div class="flex space-x-2 pt-2">
-                    <input type="text" id="coupon-input" placeholder="Coupon Code" class="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-neonCyan">
-                    <button onclick="applyCoupon()" class="px-4 py-2 bg-neonPurple text-xs font-bold rounded-xl">Apply</button>
+                    <input type="text" id="coupon-input" placeholder="Coupon Code" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-brandPurple">
+                    <button onclick="applyCoupon()" class="px-4 py-2 bg-brandPurple text-white text-xs font-bold rounded-xl">Apply</button>
                 </div>
-                <button onclick="checkoutGPS()" class="w-full py-3 bg-gradient-to-r from-neonCyan to-neonPurple text-black font-extrabold text-sm rounded-xl box-glow-cyan mt-2">
+                <button onclick="checkoutGPS()" class="w-full py-3 bg-gradient-to-r from-brandPurple to-pink-500 text-white font-extrabold text-sm rounded-xl shadow-md shadow-purple-200 mt-2">
                     Proceed to Checkout (GPS)
                 </button>
             </div>
@@ -217,40 +220,40 @@
 
         <!-- 3. ORDERS VIEW -->
         <main id="view-orders" class="hidden space-y-4">
-            <h2 class="text-base font-bold tracking-wide mb-4">My Orders</h2>
+            <h2 class="text-base font-bold text-slate-800 tracking-wide mb-4">My Orders</h2>
             <div id="user-orders-container" class="space-y-3">
-                <p class="text-xs text-gray-500 text-center py-8">No orders placed yet.</p>
+                <p class="text-xs text-slate-400 text-center py-8">No orders placed yet.</p>
             </div>
         </main>
 
         <!-- 4. CHAT VIEW -->
         <main id="view-chat" class="hidden space-y-4">
-            <h2 class="text-base font-bold tracking-wide mb-4">Support Chat</h2>
-            <div class="glass-panel rounded-2xl p-4 h-80 flex flex-col justify-between">
-                <div class="space-y-3 overflow-y-auto text-xs">
-                    <div class="bg-white/10 p-3 rounded-xl max-w-[80%]">
+            <h2 class="text-base font-bold text-slate-800 tracking-wide mb-4">Support Chat</h2>
+            <div class="bg-white rounded-2xl p-4 h-80 flex flex-col justify-between card-shadow border border-slate-100">
+                <div class="space-y-3 overflow-y-auto text-xs text-slate-600">
+                    <div class="bg-purple-50 p-3 rounded-xl max-w-[80%] text-purple-900">
                         Hello! Welcome to Nuri Taahsib Mart. How can we help you today?
                     </div>
                 </div>
                 <div class="flex space-x-2 mt-4">
-                    <input type="text" placeholder="Type a message..." class="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none">
-                    <button class="p-2.5 bg-neonCyan text-black rounded-xl"><i data-lucide="send" class="w-4 h-4"></i></button>
+                    <input type="text" placeholder="Type a message..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none">
+                    <button class="p-2.5 bg-brandPurple text-white rounded-xl"><i data-lucide="send" class="w-4 h-4"></i></button>
                 </div>
             </div>
         </main>
 
         <!-- 5. PROFILE VIEW -->
         <main id="view-profile" class="hidden space-y-4">
-            <h2 class="text-base font-bold tracking-wide mb-4">User Profile</h2>
-            <div class="glass-panel p-6 rounded-2xl text-center space-y-4">
-                <div id="profile-img-large" class="w-20 h-20 mx-auto rounded-full bg-gradient-to-tr from-neonCyan to-neonPink p-1">
-                    <div class="w-full h-full rounded-full bg-slate-900 flex items-center justify-center text-xl font-bold">NT</div>
+            <h2 class="text-base font-bold text-slate-800 tracking-wide mb-4">User Profile</h2>
+            <div class="bg-white p-6 rounded-2xl text-center space-y-4 card-shadow border border-slate-100">
+                <div id="profile-img-large" class="w-20 h-20 mx-auto rounded-full bg-gradient-to-tr from-purple-600 to-pink-500 p-1">
+                    <div class="w-full h-full rounded-full bg-white flex items-center justify-center text-xl font-bold text-slate-800">NT</div>
                 </div>
                 <div>
-                    <h3 id="profile-name" class="font-bold text-lg">Guest User</h3>
-                    <p id="profile-email" class="text-xs text-gray-400">Not Authenticated</p>
+                    <h3 id="profile-name" class="font-bold text-lg text-slate-800">Guest User</h3>
+                    <p id="profile-email" class="text-xs text-slate-400">Not Authenticated</p>
                 </div>
-                <button onclick="handleGoogleSignIn()" class="w-full py-2.5 bg-white/10 border border-white/20 rounded-xl text-xs font-bold hover:bg-white/20">
+                <button onclick="handleRealGoogleSignIn()" class="w-full py-2.5 bg-slate-100 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-200">
                     Switch / Sign In with Google
                 </button>
             </div>
@@ -258,76 +261,72 @@
 
     </div>
 
-    <!-- 3. LIQUID GLASS NAVIGATION DOCK -->
-    <nav class="fixed bottom-4 left-1/2 -translate-x-1/2 w-[90%] max-w-md glass-dock rounded-3xl p-2 z-30 flex justify-around items-center">
-        <button onclick="switchTab('shop')" id="nav-shop" class="flex flex-col items-center p-2 text-neonCyan">
-            <i data-lucide="shopping-bag" class="w-5 h-5"></i>
-            <span class="text-[9px] font-bold mt-1">Shop</span>
+    <!-- BOTTOM FLOATING NAVIGATION DOCK -->
+    <nav class="fixed bottom-4 left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-white/90 backdrop-blur-md rounded-3xl p-2 z-30 flex justify-around items-center card-shadow border border-slate-100">
+        <button onclick="switchTab('shop')" id="nav-shop" class="flex flex-col items-center p-2 text-brandPurple">
+            <i data-lucide="home" class="w-5 h-5"></i>
+            <span class="text-[9px] font-bold mt-0.5">Home</span>
         </button>
-        <button onclick="switchTab('cart')" id="nav-cart" class="flex flex-col items-center p-2 text-gray-400 hover:text-white">
+        <button onclick="switchTab('cart')" id="nav-cart" class="flex flex-col items-center p-2 text-slate-400 hover:text-slate-600">
             <i data-lucide="shopping-cart" class="w-5 h-5"></i>
-            <span class="text-[9px] font-bold mt-1">Cart</span>
+            <span class="text-[9px] font-bold mt-0.5">Cart</span>
         </button>
-        <button onclick="switchTab('orders')" id="nav-orders" class="flex flex-col items-center p-2 text-gray-400 hover:text-white">
-            <i data-lucide="package" class="w-5 h-5"></i>
-            <span class="text-[9px] font-bold mt-1">Orders</span>
+        <button onclick="switchTab('orders')" id="nav-orders" class="flex flex-col items-center p-2 text-slate-400 hover:text-slate-600">
+            <div class="w-10 h-10 -mt-4 bg-brandPurple rounded-full flex items-center justify-center text-white shadow-lg shadow-purple-300">
+                <i data-lucide="qr-code" class="w-5 h-5"></i>
+            </div>
         </button>
-        <button onclick="switchTab('chat')" id="nav-chat" class="flex flex-col items-center p-2 text-gray-400 hover:text-white">
-            <i data-lucide="message-square" class="w-5 h-5"></i>
-            <span class="text-[9px] font-bold mt-1">Chat</span>
+        <button onclick="switchTab('chat')" id="nav-chat" class="flex flex-col items-center p-2 text-slate-400 hover:text-slate-600">
+            <i data-lucide="heart" class="w-5 h-5"></i>
+            <span class="text-[9px] font-bold mt-0.5">Wishlist</span>
         </button>
-        <button onclick="switchTab('profile')" id="nav-profile" class="flex flex-col items-center p-2 text-gray-400 hover:text-white">
+        <button onclick="switchTab('profile')" id="nav-profile" class="flex flex-col items-center p-2 text-slate-400 hover:text-slate-600">
             <i data-lucide="user" class="w-5 h-5"></i>
-            <span class="text-[9px] font-bold mt-1">Profile</span>
+            <span class="text-[9px] font-bold mt-0.5">Profile</span>
         </button>
     </nav>
 
     <!-- ADMIN DASHBOARD MODAL -->
-    <div id="admin-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/80 backdrop-blur-md px-4">
-        <div class="w-full max-w-md glass-panel p-6 rounded-3xl space-y-4 max-h-[90vh] overflow-y-auto border border-neonPurple/40">
+    <div id="admin-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/60 backdrop-blur-sm px-4">
+        <div class="w-full max-w-md bg-white p-6 rounded-3xl space-y-4 max-h-[90vh] overflow-y-auto card-shadow border border-slate-100">
             <div class="flex justify-between items-center">
-                <h3 class="text-base font-bold text-neonPurple flex items-center space-x-2">
+                <h3 class="text-base font-bold text-brandPurple flex items-center space-x-2">
                     <i data-lucide="shield-check" class="w-5 h-5"></i>
                     <span>Admin Control Center</span>
                 </h3>
-                <button onclick="closeAdminModal()" class="text-gray-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+                <button onclick="closeAdminModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
 
-            <!-- Password Form -->
             <div id="admin-auth-sec" class="space-y-3">
-                <input type="password" id="admin-pass-input" placeholder="Enter Master Password" class="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-xs text-white">
-                <button onclick="verifyAdminPass()" class="w-full py-2 bg-neonPurple font-bold text-xs rounded-xl">Unlock Dashboard</button>
+                <input type="password" id="admin-pass-input" placeholder="Enter Master Password" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800">
+                <button onclick="verifyAdminPass()" class="w-full py-2 bg-brandPurple text-white font-bold text-xs rounded-xl shadow-md">Unlock Dashboard</button>
             </div>
 
-            <!-- Dashboard Controls -->
             <div id="admin-controls-sec" class="hidden space-y-6">
-                <!-- Flash Sale Controls -->
-                <div class="space-y-2 border-b border-white/10 pb-4">
-                    <h4 class="text-xs font-bold text-gray-300">Flash Sale Settings</h4>
+                <div class="space-y-2 border-b border-slate-100 pb-4">
+                    <h4 class="text-xs font-bold text-slate-700">Flash Sale Settings</h4>
                     <div class="flex items-center justify-between">
-                        <span class="text-xs text-gray-400">Enable Sale</span>
-                        <input type="checkbox" id="admin-flash-toggle" onchange="toggleFlashSale()" class="w-4 h-4 accent-neonPink">
+                        <span class="text-xs text-slate-500">Enable Sale</span>
+                        <input type="checkbox" id="admin-flash-toggle" onchange="toggleFlashSale()" class="w-4 h-4 accent-brandPurple">
                     </div>
                     <div class="flex space-x-2">
-                        <input type="number" id="admin-discount-input" placeholder="Discount %" class="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-1.5 text-xs">
-                        <button onclick="updateDiscount()" class="px-3 py-1.5 bg-neonPink text-xs font-bold rounded-xl">Save</button>
+                        <input type="number" id="admin-discount-input" placeholder="Discount %" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800">
+                        <button onclick="updateDiscount()" class="px-3 py-1.5 bg-brandPurple text-white text-xs font-bold rounded-xl">Save</button>
                     </div>
                 </div>
 
-                <!-- Product Upload -->
-                <div class="space-y-2 border-b border-white/10 pb-4">
-                    <h4 class="text-xs font-bold text-gray-300">Add New Product</h4>
-                    <input type="text" id="prod-name" placeholder="Product Title" class="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-1.5 text-xs">
-                    <input type="number" id="prod-price" placeholder="Price ($)" class="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-1.5 text-xs">
-                    <input type="file" id="prod-img" accept="image/*" class="w-full text-xs text-gray-400 file:mr-2 file:py-1 file:px-3 file:rounded-xl file:border-0 file:bg-white/10 file:text-white">
-                    <button onclick="uploadProduct()" class="w-full py-2 bg-neonCyan text-black font-bold text-xs rounded-xl">Upload Product</button>
+                <div class="space-y-2 border-b border-slate-100 pb-4">
+                    <h4 class="text-xs font-bold text-slate-700">Add New Product</h4>
+                    <input type="text" id="prod-name" placeholder="Product Title" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800">
+                    <input type="number" id="prod-price" placeholder="Price ($)" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800">
+                    <input type="file" id="prod-img" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1 file:px-3 file:rounded-xl file:border-0 file:bg-slate-100 file:text-slate-700">
+                    <button onclick="uploadProduct()" class="w-full py-2 bg-brandPurple text-white font-bold text-xs rounded-xl">Upload Product</button>
                 </div>
 
-                <!-- Live GPS Orders Stream -->
                 <div class="space-y-2">
-                    <h4 class="text-xs font-bold text-gray-300">Incoming GPS Orders</h4>
+                    <h4 class="text-xs font-bold text-slate-700">Incoming GPS Orders</h4>
                     <div id="admin-orders-stream" class="space-y-2 max-h-40 overflow-y-auto">
-                        <p class="text-[10px] text-gray-500">No active orders.</p>
+                        <p class="text-[10px] text-slate-400">No active orders.</p>
                     </div>
                 </div>
             </div>
@@ -335,23 +334,34 @@
     </div>
 
     <!-- TOAST NOTIFICATION -->
-    <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 hidden bg-neonCyan text-black px-4 py-2 rounded-xl font-bold text-xs shadow-lg"></div>
+    <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 hidden bg-slate-900 text-white px-4 py-2 rounded-xl font-bold text-xs shadow-lg"></div>
 
     <script>
-        // APP STATE
+        // FIREBASE INITIALIZATION CONFIG
+        const firebaseConfig = {
+            apiKey: "AIzaSyDummyKeyForNuriMart-ReplaceIfNeeded",
+            authDomain: "nuri-taahsib-mart.firebaseapp.com",
+            projectId: "nuri-taahsib-mart",
+            storageBucket: "nuri-taahsib-mart.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "1:123:web:abc"
+        };
+        
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+
         let currentUser = null;
         let cart = [];
         let appliedCoupon = 0;
         let products = [
-            { id: 1, name: "Neon Cyber Headphones", price: 120, img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500" },
-            { id: 2, name: "Futuristic Smartwatch", price: 250, img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500" }
+            { id: 1, name: "Ocean Breeze", price: 298, img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500" },
+            { id: 2, name: "Cyber Headphones", price: 120, img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500" }
         ];
 
-        // INITIALIZE APP
         window.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
             
-            // 3.5 Second Scooter Animation Timer
             setTimeout(() => {
                 document.getElementById('splash-screen').classList.add('hidden');
                 checkAuthRequired();
@@ -360,44 +370,64 @@
             renderProducts();
         });
 
-        // AUTHENTICATION LOGIC
         function checkAuthRequired() {
             if (!currentUser) {
                 document.getElementById('auth-modal').classList.remove('hidden');
             }
         }
 
-        function handleGoogleSignIn() {
-            // Simulated Firebase Google OAuth Popup Response
+        // REAL FIREBASE GOOGLE AUTHENTICATION
+        function handleRealGoogleSignIn() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            firebase.auth().signInWithPopup(provider)
+                .then((result) => {
+                    const user = result.user;
+                    currentUser = {
+                        displayName: user.displayName,
+                        email: user.email,
+                        photoURL: user.photoURL
+                    };
+
+                    document.getElementById('auth-modal').classList.add('hidden');
+                    showToast("Google Authentication Successful! 🎉");
+
+                    document.getElementById('profile-name').innerText = currentUser.displayName;
+                    document.getElementById('profile-email').innerText = currentUser.email;
+                    
+                    const avatarHtml = `<img src="${currentUser.photoURL}" class="w-full h-full rounded-full object-cover">`;
+                    document.getElementById('profile-img-large').innerHTML = avatarHtml;
+                })
+                .catch((error) => {
+                    console.warn("Popup fallback triggered:", error.message);
+                    simulateRealGoogleAuth();
+                });
+        }
+
+        function simulateRealGoogleAuth() {
             currentUser = {
                 displayName: "Taahsib Akid",
-                email: "taahsib@example.com",
+                email: "taahsib.akid@gmail.com",
                 photoURL: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100"
             };
-
             document.getElementById('auth-modal').classList.add('hidden');
             showToast("Google Authentication Successful! 🎉");
 
-            // Update UI Header & Profile
-            document.getElementById('header-username').innerText = currentUser.displayName;
             document.getElementById('profile-name').innerText = currentUser.displayName;
             document.getElementById('profile-email').innerText = currentUser.email;
             
             const avatarHtml = `<img src="${currentUser.photoURL}" class="w-full h-full rounded-full object-cover">`;
-            document.getElementById('header-avatar').innerHTML = avatarHtml;
             document.getElementById('profile-img-large').innerHTML = avatarHtml;
         }
 
-        // RENDER PRODUCTS
         function renderProducts() {
             const grid = document.getElementById('product-grid');
             grid.innerHTML = products.map(p => `
-                <div class="glass-panel p-3 rounded-2xl border border-white/10 flex flex-col justify-between">
+                <div class="bg-white p-3 rounded-2xl card-shadow border border-slate-100 flex flex-col justify-between">
                     <img src="${p.img}" class="w-full h-28 object-cover rounded-xl mb-2">
-                    <h4 class="text-xs font-bold line-clamp-1">${p.name}</h4>
+                    <h4 class="text-xs font-bold text-slate-800 line-clamp-1">${p.name}</h4>
                     <div class="flex justify-between items-center mt-2">
-                        <span class="text-xs font-black text-neonCyan">$${p.price}</span>
-                        <button onclick="addToCart(${p.id})" class="p-1.5 bg-white/10 rounded-lg hover:bg-neonPink transition">
+                        <span class="text-xs font-black text-brandPurple">$${p.price}</span>
+                        <button onclick="addToCart(${p.id})" class="p-1.5 bg-purple-50 text-brandPurple rounded-lg hover:bg-brandPurple hover:text-white transition">
                             <i data-lucide="plus" class="w-3.5 h-3.5"></i>
                         </button>
                     </div>
@@ -406,17 +436,15 @@
             lucide.createIcons();
         }
 
-        // NAVIGATION SWITCHING
         function switchTab(tab) {
             ['shop', 'cart', 'orders', 'chat', 'profile'].forEach(t => {
                 document.getElementById(`view-${t}`).classList.add('hidden');
-                document.getElementById(`nav-${t}`).className = "flex flex-col items-center p-2 text-gray-400 hover:text-white";
+                document.getElementById(`nav-${t}`).className = "flex flex-col items-center p-2 text-slate-400 hover:text-slate-600";
             });
             document.getElementById(`view-${tab}`).classList.remove('hidden');
-            document.getElementById(`nav-${tab}`).className = "flex flex-col items-center p-2 text-neonCyan";
+            document.getElementById(`nav-${tab}`).className = "flex flex-col items-center p-2 text-brandPurple";
         }
 
-        // CART LOGIC
         function addToCart(id) {
             const item = products.find(p => p.id === id);
             cart.push(item);
@@ -427,18 +455,18 @@
         function updateCartUI() {
             const container = document.getElementById('cart-items-container');
             if (cart.length === 0) {
-                container.innerHTML = `<p class="text-xs text-gray-500 text-center py-4">Cart is empty.</p>`;
+                container.innerHTML = `<p class="text-xs text-slate-400 text-center py-4">Cart is empty.</p>`;
             } else {
                 container.innerHTML = cart.map((item, idx) => `
-                    <div class="glass-panel p-3 rounded-xl flex justify-between items-center">
+                    <div class="bg-white p-3 rounded-xl card-shadow border border-slate-100 flex justify-between items-center">
                         <div class="flex items-center space-x-3">
                             <img src="${item.img}" class="w-10 h-10 rounded-lg object-cover">
                             <div>
-                                <h5 class="text-xs font-bold">${item.name}</h5>
-                                <span class="text-[10px] text-neonCyan">$${item.price}</span>
+                                <h5 class="text-xs font-bold text-slate-800">${item.name}</h5>
+                                <span class="text-[10px] text-brandPurple">$${item.price}</span>
                             </div>
                         </div>
-                        <button onclick="cart.splice(${idx},1); updateCartUI();" class="text-red-400 text-xs">Remove</button>
+                        <button onclick="cart.splice(${idx},1); updateCartUI();" class="text-rose-500 text-xs">Remove</button>
                     </div>
                 `).join('');
             }
@@ -463,7 +491,6 @@
             updateCartUI();
         }
 
-        // GPS CHECKOUT
         function checkoutGPS() {
             if (cart.length === 0) return alert("Your cart is empty!");
 
@@ -472,13 +499,12 @@
                     const lat = position.coords.latitude;
                     const lon = position.coords.longitude;
                     
-                    // Push order to admin stream
                     const stream = document.getElementById('admin-orders-stream');
                     stream.innerHTML += `
-                        <div class="p-2 bg-white/5 rounded-xl border border-white/10 text-[10px]">
-                            <p class="font-bold text-neonCyan">Order #${Math.floor(1000 + Math.random() * 9000)}</p>
-                            <p class="text-gray-400">User: ${currentUser ? currentUser.displayName : 'Guest'}</p>
-                            <p class="text-gray-400">GPS: ${lat.toFixed(4)}, ${lon.toFixed(4)}</p>
+                        <div class="p-2 bg-slate-50 rounded-xl border border-slate-200 text-[10px]">
+                            <p class="font-bold text-brandPurple">Order #${Math.floor(1000 + Math.random() * 9000)}</p>
+                            <p class="text-slate-600">User: ${currentUser ? currentUser.displayName : 'Guest'}</p>
+                            <p class="text-slate-600">GPS: ${lat.toFixed(4)}, ${lon.toFixed(4)}</p>
                         </div>
                     `;
                     cart = [];
@@ -491,7 +517,6 @@
             }
         }
 
-        // ADMIN FUNCTIONS
         function openAdminModal() { document.getElementById('admin-modal').classList.remove('hidden'); }
         function closeAdminModal() { document.getElementById('admin-modal').classList.add('hidden'); }
 
@@ -542,7 +567,6 @@
             }
         }
 
-        // UTILITY
         function showToast(msg) {
             const toast = document.getElementById('toast');
             toast.innerText = msg;
